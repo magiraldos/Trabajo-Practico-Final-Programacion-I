@@ -14,23 +14,20 @@ def agregar_productos(matriz_productos, id_actual):
     return matriz_productos, nuevo_id
 
 def imprimir_inventario(inventario, encabezado_inventario):
-    filas = len(inventario)
-    columnas = len(inventario[0])
-    for titulo in encabezado_inventario: # Imprimimos los títulos
-        print(titulo, end="\t")
+    ancho = 15
+    for titulo in encabezado_inventario:
+        print(f"{titulo:<{ancho}}", end="")
     print()
-    for fila in range(filas): # Imprimimos la matriz
-        for columna in range(columnas):
-            print(inventario[fila][columna], end="\t")
+    print("-" * (ancho * len(encabezado_inventario)))
+    for fila in inventario:
+        for dato in fila:
+            print(f"{str(dato):<{ancho}}", end="")
         print()
     
-# Creación de la Matriz y ID
 inventario = []
 id_contador = 0
 encabezado_inventario = ["ID", "Nombre", "Precio", "Stock", "Categoria", "Proveedores"]
 
-# Imprimir la Matriz
-for i in range(0,3):
-    agregar_productos(inventario,id_contador)
+for i in range(0, 3):
+    inventario, id_contador = agregar_productos(inventario, id_contador)
     imprimir_inventario(inventario, encabezado_inventario)
-
