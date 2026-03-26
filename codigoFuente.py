@@ -38,15 +38,22 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     
     return productos, id_producto, id_categoria, id_proveedor
 
-def imprimir_inventario(inventario, encabezado_inventario):
-    filas = len(inventario)
-    columnas = len(inventario[0])
-    for titulo in encabezado_inventario: # Imprimimos los títulos
+def imprimir_inventario(identidad, encabezado_identidad):
+    filas = len(identidad)
+    columnas = len(identidad[0])
+    for titulo in encabezado_identidad: # Imprimimos los títulos
         print(titulo, end="\t")
+    ancho = 15
+    for titulo in encabezado_identidad:
+        print(f"{titulo:<{ancho}}", end="")
     print()
     for fila in range(filas): # Imprimimos la matriz
         for columna in range(columnas):
-            print(inventario[fila][columna], end="\t")
+            print(identidad[fila][columna], end="\t")
+    print("-" * (ancho * len(encabezado_identidad)))
+    for fila in identidad:
+        for dato in fila:
+            print(f"{str(dato):<{ancho}}", end="")
         print()
     
 # Agregar los 5 casos de ejemplos del Google Sheets ////
