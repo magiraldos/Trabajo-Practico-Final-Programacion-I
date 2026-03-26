@@ -25,44 +25,24 @@ def carga_producto(productos, id_producto):
     
     return productos, nuevo_id
 
-def imprimir_inventario(identidad, encabezado):
-    filas = len(identidad)
-    columnas = len(identidad[0])
-    for titulo in encabezado: # Imprimimos los títulos
+def imprimir_inventario(inventario, encabezado_inventario):
+    filas = len(inventario)
+    columnas = len(inventario[0])
+    for titulo in encabezado_inventario: # Imprimimos los títulos
         print(titulo, end="\t")
-    ancho = 15
-    for titulo in encabezado:
-        print(f"{titulo:<{ancho}}", end="")
     print()
     for fila in range(filas): # Imprimimos la matriz
         for columna in range(columnas):
-            print(identidad[fila][columna], end="\t")
-    print("-" * (ancho * len(encabezado)))
-    for fila in identidad:
-        for dato in fila:
-            print(f"{str(dato):<{ancho}}", end="")
+            print(inventario[fila][columna], end="\t")
         print()
     
-# Agregar los 5 casos de ejemplos del Google Sheets ////
-# Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids 
-# Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
-productos = []
-id_producto = 0
-encabezado_producto = ["ID Producto", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
+# Creación de la Matriz y ID
+inventario = []
+id_contador = 0
+encabezado_inventario = ["ID", "Nombre", "Precio", "Stock", "Categoria", "Proveedores"]
 
-categorias = []
-id_categoria = 0
-encabezado_categoria = ["ID Categoría", "Categoria", "ID Producto", "Nombre Producto"]
+# Imprimir la Matriz
+for i in range(0,3):
+    agregar_productos(inventario,id_contador)
+    imprimir_inventario(inventario, encabezado_inventario)
 
-proveedores = [] 
-id_proveedor = 0 
-encabezado_proveedor = ["ID Proveedor", "Proveedor", "Telefono", "ID Producto", "Producto"] 
-
-ventas = []
-id_ventas = 0
-encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"] 
-
-
-for i in range(0, 3):
-    productos, id_producto = carga_producto(productos, id_producto)
-    imprimir_inventario(productos, encabezado_producto)
