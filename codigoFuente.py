@@ -41,16 +41,10 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
 def imprimir_inventario(identidad, encabezado_identidad):
     filas = len(identidad)
     columnas = len(identidad[0])
-    for titulo in encabezado_identidad: # Imprimimos los títulos
-        print(titulo, end="\t")
     ancho = 15
     for titulo in encabezado_identidad:
         print(f"{titulo:<{ancho}}", end="")
     print()
-    for fila in range(filas): # Imprimimos la matriz
-        for columna in range(columnas):
-            print(identidad[fila][columna], end="\t")
-    print("-" * (ancho * len(encabezado_identidad)))
     for fila in identidad:
         for dato in fila:
             print(f"{str(dato):<{ancho}}", end="")
@@ -84,3 +78,6 @@ for i in range(0,3):
     carga_producto(productos,id_producto, categorias, id_proveedor, proveedores, id_proveedor)
     imprimir_inventario(productos, encabezado_producto)
 
+print(productos)
+print(categorias)
+print(proveedores)
