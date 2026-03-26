@@ -1,5 +1,5 @@
 # Carga de la Matriz con Datos
-def carga_producto(productos, id_producto):
+def carga_producto(productos, id_producto, categorias, id_categoria, proveedores, id_proveedor ):
     """
     Funcion que permite el ingreso de productos, registro de proveedores y categorías relacionadas al producto. 3 partes:
     - Ingreso de los datos del producto (1)
@@ -8,22 +8,35 @@ def carga_producto(productos, id_producto):
     """
     # PARTE 1
     # Generamos ID del producto
-    nuevo_id = id_producto + 1
+    id_producto += 1
     # Pedimos datos del producto al usuario
+    print("Ingreso de datos del producto")
     nombre_producto = input("Ingrese el nombre del producto: ")
     precio_producto = float(input("Ingrese precio del producto: "))
     stock_producto = int(input("Ingrese stock del producto: "))
-    categoria = input("Ingrese la categoria del producto: ")
-    proveedor = input("Ingrese el proveedor del producto: ")
-    # Los insertamos en la matriz de producto
-    fila_productos = [nuevo_id, nombre_producto, precio_producto, stock_producto, categoria, proveedor]
-    productos.append(fila_productos)
     
     # PARTE 2
+    print("CATEGORIA")
+    nombre_categoria = input("Ingrese la categoria del producto: ")
+    # if not existe_categoria(categoria):
+    id_categoria += 1
+    
     
     # PARTE 3
+    print("PROVEEDOR")
+    nombre_proveedor = input("Ingrese el proveedor del producto:")
+    telefono_proveedor = input("Ingrese telefono del proveedor: ")
+    # if not existe_categoria(categoria):
+    id_categoria += 1
+   
+    fila_productos = [id_producto, nombre_producto, precio_producto, stock_producto, nombre_categoria, nombre_proveedor]
+    productos.append(fila_productos)
+    fila_categorias = [id_categoria, nombre_categoria, id_producto, nombre_producto]
+    categorias.append(fila_categorias)
+    fila_proveedores = [id_proveedor, nombre_proveedor, telefono_proveedor, id_producto, nombre_producto]
+    proveedores.append(fila_proveedores)
     
-    return productos, nuevo_id
+    return productos, id_producto, id_categoria, id_proveedor
 
 def imprimir_inventario(inventario, encabezado_inventario):
     filas = len(inventario)
@@ -61,6 +74,6 @@ encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Tota
 
 # Imprimir la Matriz
 for i in range(0,3):
-    carga_producto(productos,id_producto)
+    carga_producto(productos,id_producto, categorias, id_proveedor, proveedores, id_proveedor)
     imprimir_inventario(productos, encabezado_producto)
 
