@@ -53,10 +53,11 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     
     # Validación de existencia simple por nombre
     existe = False
-    for p in productos:
-        if p[1] == nombre_producto:
+    i = 0
+    while i < len(productos) and not existe:
+        if productos[i][1] == nombre_producto:
             existe = True
-            break
+        i += 1
 
     if not existe:
         productos.append(fila_productos)
@@ -71,22 +72,28 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         
     return productos, id_producto, id_categoria, id_proveedor
 
-#  FUNCIÓN PARA ORDENAMIENTO
+def obtener_stock(fila):
+    """ Retorna el valor del stock (índice 3) para que sorted pueda ordenar """
+    return fila[3]
+
+
+# FUNCIÓN PARA ORDENAMIENTO 
 def ordenar_por_stock(matriz, descendente=False):
     """
     Ordena la matriz según la columna de stock (índice 3).
-    si descendente es True, ordena de mayor a menor.
+    Si descendente es True, ordena de mayor a menor.
     """
-    # se ua sorted para no modificar la matriz original si no queremos
-    matriz_ordenada = sorted(matriz, key=lambda x: x[3], reverse=descendente)
+    # Usamos la función auxiliar 'obtener_stock' como clave de ordenamiento
+    matriz_ordenada = sorted(matriz, key=obtener_stock, reverse=descendente)
     return matriz_ordenada
 
+
+
 def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
-    """
-    Mejorada con formato de tabla y títulos dinámicos
-    """
+    
+    
     if not identidad:
-        print("\n[!] No hay datos para mostrar.")
+        print("\n No hay datos para mostrar.")
         return
 
     ancho = 15
