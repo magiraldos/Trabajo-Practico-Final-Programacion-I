@@ -1,7 +1,7 @@
 def main():
     """
-    Esta funcion va a cumplir el rol del menu del sistema de control de inventario, cómo será la interfaz para interactuar con las funciones del programa
-    """
+    Esta funcion va a cumplir el rol del menu del sistema de control de inventario.
+    """ 
     print("="*80)
     print(f"{'Menu del Sistema':^80}")
     print("="*80)
@@ -9,10 +9,11 @@ def main():
     print("2. Buscar producto, proveedor o categoria") # ENCUESTA / ENCARGADO
     print("3. Modificar producto, proveedor o categoria") # PENDIENTE
     print("4. Eliminar producto, proveedor o categoria") # PENDIENTE
-    print("5. Realizar venta de producto") # PENDIENTE (IDEA: GENERAR FACTURA)
+    print("5. Realizar venta de producto") # PENDIENTE (IDEA: GENERAR FACTURA)   
     print("6. Estadisticas") # PENDIENTE
-    
-def carga_producto(productos, id_producto, categorias, id_categoria, proveedores, id_proveedor ):
+    print("0. Salir")
+
+def carga_producto(productos, id_producto, categorias, id_categoria, proveedores, id_proveedor):
     """
     Funcion que permite el ingreso de nuevos productos, registro de proveedores y categorías relacionadas al producto. 3 partes (validando que no existe):
     - Ingreso de los datos del producto (1)
@@ -25,14 +26,16 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     # Pedimos datos del producto al usuario
     print("\n--- Ingreso de datos del producto ---")
     nombre_producto = (input("Ingrese el nombre del producto: ")).upper()    
+    
     precio_producto = float(input("Ingrese precio del producto: "))
     while precio_producto <= 0:
         print("Error, el precio debe ser mayor a 0")
         precio_producto = float(input("Ingrese precio del producto: "))        
+        
     stock_producto = int(input("Ingrese stock del producto: "))
     while stock_producto < 0:
         print("Error, el stock del producto debe ser un numero mayor o igual a 0")
-        stock_producto = int(input("Ingrese stock del producto: ")) # Corregido se guardaba en precio_producto
+        stock_producto = int(input("Ingrese stock del producto: ")) 
         
     # PARTE 2
     print("\n--- CATEGORIA ---")
@@ -47,7 +50,7 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         print(f"Error, tamaño invalido (ingresaste {len(telefono_proveedor)} dígitos)")
         telefono_proveedor = input("Ingrese telefono del proveedor (11 digitos): ")
     
-    id_proveedor += 1 # corregido antes sumaba a id_categoria de nuevo
+    id_proveedor += 1 
 
     fila_productos = [id_producto, nombre_producto, precio_producto, stock_producto, nombre_categoria, nombre_proveedor]
     
@@ -65,29 +68,22 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         categorias.append(fila_categorias)
         fila_proveedores = [id_proveedor, nombre_proveedor, telefono_proveedor, id_producto, nombre_producto]
         proveedores.append(fila_proveedores)
-        print("\nProducto cargado exitosamente.")
+        print("\n Producto cargado exitosamente.")
     else:
-        print("\nYa existe este producto en el inventario.")
-        # podrías restar los IDs si no se carga, pero así funciona bien
+        print("\n Ya existe este producto en el inventario.")
         
     return productos, id_producto, id_categoria, id_proveedor
+
 
 def obtener_stock(fila):
     """ Retorna el valor del stock (índice 3) para que sorted pueda ordenar """
     return fila[3]
 
 
-# FUNCIÓN PARA ORDENAMIENTO 
+#  FUNCION PARA ORDENAMIENTO
 def ordenar_por_stock(matriz, descendente=False):
-    """
-    Ordena la matriz según la columna de stock (índice 3).
-    Si descendente es True, ordena de mayor a menor.
-    """
-    # Usamos la función auxiliar 'obtener_stock' como clave de ordenamiento
-    matriz_ordenada = sorted(matriz, key=obtener_stock, reverse=descendente)
-    return matriz_ordenada
-
-
+    """ Ordena la matriz usando la función auxiliar """
+    return sorted(matriz, key=obtener_stock, reverse=descendente)
 
 def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
     
@@ -112,7 +108,7 @@ def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
             print(f"{str(dato):<{ancho}}", end="")
         print()
     print("=" * (ancho * len(encabezado_identidad)) + "\n")
-    
+
 # Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids
 # Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
 productos = []
@@ -130,22 +126,37 @@ encabezado_provider = ["ID", "Proveedor", "Telefono", "ID Producto", "Producto"]
 ventas = []
 id_ventas = 0
 encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"]
+# BUCLE PRINCIPAL 
+opcion = ""
 
+while opcion != "0":
+    main() # Muestra menu
+    opcion = input("Seleccione una opción: ")
 
-#main() # Mostramos el menú
+    if opcion == "1":
+        # Ejecutamos la carga
+        productos, id_producto, id_categoria, id_proveedor = carga_producto(
+            productos, id_producto, categorias, id_categoria, proveedores, id_proveedor
+        )
 
-# Carga de ejemplo
-productos, id_producto, id_categoria, id_proveedor = carga_producto(
-    productos, id_producto, categorias, id_categoria, proveedores, id_proveedor
-)
+    elif opcion == "6":
+        # Mostramos los reportes que ya teniamos
+        imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
+        
+        inv_asc = ordenar_por_stock(productos, descendente=False)
+        imprimir_inventario(inv_asc, encabezado_producto, "STOCK: MENOR A MAYOR")
+        
+        inv_desc = ordenar_por_stock(productos, descendente=True)
+        imprimir_inventario(inv_desc, encabezado_producto, "STOCK: MAYOR A MENOR")
 
-# Imprimir normal
-imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
+    elif opcion == "0":
+        print("\nPrograma Finalizado, suerte Crack 🔵🟡")
+    
+    elif opcion in ["2", "3", "4", "5"]:
+        print(f"\nLa opción {opcion} no esta por ahora.")
+    
+    else:
+        print("\nOpción no válida. Intente de nuevo.")
 
-# Imprimir ordenado por Stock (Ascendente)
-inv_asc = ordenar_por_stock(productos, descendente=False)
-imprimir_inventario(inv_asc, encabezado_producto, "STOCK: MENOR A MAYOR")
-
-# Imprimir ordenado por Stock (Descendente)
-inv_desc = ordenar_por_stock(productos, descendente=True)
-imprimir_inventario(inv_desc, encabezado_producto, "STOCK: MAYOR A MENOR")
+    ##if opcion != "0":
+   ##     input("\nPresione Enter para volver al menú")
