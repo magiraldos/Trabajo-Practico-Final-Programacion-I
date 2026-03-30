@@ -150,7 +150,7 @@ while opcion != "0":
         imprimir_inventario(inv_desc, encabezado_producto, "STOCK: MAYOR A MENOR")
 
     elif opcion == "0":
-        print("\nPrograma Finalizado, suerte Crack 🔵🟡")
+        print("\nPrograma Finalizado, suerte Crack 🔵🟡 <-- Murio en Madrid")
     
     elif opcion in ["2", "3", "4", "5"]:
         print(f"\nLa opción {opcion} no esta por ahora.")
