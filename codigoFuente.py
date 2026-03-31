@@ -26,22 +26,22 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     # Pedimos datos del producto al usuario
     print("\n--- Ingreso de datos del producto ---")
     nombre_producto = (input("Ingrese el nombre del producto: ")).upper()    
-    
+
     precio_producto = float(input("Ingrese precio del producto: "))
     while precio_producto <= 0:
         print("Error, el precio debe ser mayor a 0")
         precio_producto = float(input("Ingrese precio del producto: "))        
-        
+
     stock_producto = int(input("Ingrese stock del producto: "))
     while stock_producto < 0:
         print("Error, el stock del producto debe ser un numero mayor o igual a 0")
         stock_producto = int(input("Ingrese stock del producto: ")) 
-        
+
     # PARTE 2
     print("\n--- CATEGORIA ---")
     nombre_categoria = (input("Ingrese la categoria del producto: ")).upper()
     id_categoria += 1
-    
+
     # PARTE 3
     print("\n--- PROVEEDOR ---")
     nombre_proveedor = (input("Ingrese el proveedor del producto:")).upper()
@@ -49,11 +49,11 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     while len(telefono_proveedor) != 11:
         print(f"Error, tamaño invalido (ingresaste {len(telefono_proveedor)} dígitos)")
         telefono_proveedor = input("Ingrese telefono del proveedor (11 digitos): ")
-    
+
     id_proveedor += 1 
 
     fila_productos = [id_producto, nombre_producto, precio_producto, stock_producto, nombre_categoria, nombre_proveedor]
-    
+
     # Validación de existencia simple por nombre
     existe = False
     i = 0
@@ -71,7 +71,7 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         print("\n Producto cargado exitosamente.")
     else:
         print("\n Ya existe este producto en el inventario.")
-        
+
     return productos, id_producto, id_categoria, id_proveedor
 
 
@@ -86,8 +86,8 @@ def ordenar_por_stock(matriz, descendente=False):
     return sorted(matriz, key=obtener_stock, reverse=descendente)
 
 def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
-    
-    
+
+
     if not identidad:
         print("\n No hay datos para mostrar.")
         return
@@ -111,7 +111,18 @@ def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
 
 # Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids
 # Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
-productos = []
+productos = [
+[1, "Alfajor Oreo", 1100, 50, "Dulce", "Distribuidora Dulce Sur"],
+[2, "Red Bull", 2800, 24, "Bebida", "Energía Total S.A."],
+[3, "Jorgito", 850, 100, "Dulce", "Golosinas del Plata"],
+[4, "Doritos", 2200, 30, "Snack", "MacroSnacks Inc."],
+[5, "Papas Lays", 1900, 45, "Snack", "Distribuidora Pepsico"],
+[6, "Jugo Cepita", 1400, 36, "Bebida", "Cítricos del Norte"],
+[7, "Coca Cola 600", 1650, 72, "Bebida", "Femsa Logística"],
+[8, "Marlboro", 3200, 20, "Cigarrillos", "Tabacalera Central"],
+[9, "Chicles Beldent", 700, 150, "Dulce", "Mondelēz Distribución"],
+[10, "Agua 600", 1100, 48, "Bebida", "Aguas del Retiro"]
+]
 id_producto = 0
 encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
 
@@ -142,21 +153,21 @@ while opcion != "0":
     elif opcion == "6":
         # Mostramos los reportes que ya teniamos
         imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
-        
+
         inv_asc = ordenar_por_stock(productos, descendente=False)
         imprimir_inventario(inv_asc, encabezado_producto, "STOCK: MENOR A MAYOR")
-        
+
         inv_desc = ordenar_por_stock(productos, descendente=True)
         imprimir_inventario(inv_desc, encabezado_producto, "STOCK: MAYOR A MENOR")
 
     elif opcion == "0":
         print("\nPrograma Finalizado, suerte Crack 🔵🟡")
-    
+        print("\nPrograma Finalizado, suerte Crack 🔵🟡 <-- Murio en Madrid")
+
     elif opcion in ["2", "3", "4", "5"]:
         print(f"\nLa opción {opcion} no esta por ahora.")
-    
+
     else:
         print("\nOpción no válida. Intente de nuevo.")
 
     ##if opcion != "0":
-   ##     input("\nPresione Enter para volver al menú")
