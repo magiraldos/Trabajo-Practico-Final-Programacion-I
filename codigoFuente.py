@@ -140,6 +140,62 @@ encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Tota
 # BUCLE PRINCIPAL 
 opcion = ""
 
+
+def modificar_productos(productos):
+    if not productos:
+        print("El producto es inexistente")
+        return productos
+    
+    buscar = int(input("Ingrese el ID del producto que quiere modificar: "))
+
+    id_encontrado = -1
+    for i in range(len(productos)):
+        if productos[i][0] == buscar:
+            id_encontrado = i
+
+    if id_encontrado != -1:
+        print(f"Producto encontrado: {productos[id_encontrado][1]}")
+        print("1. Modificar Nombre")
+        print("2. Modificar Precio")
+        print("3. Modificar Stock")
+        print("0. Cancelar operacion")
+        opcionDos = int(input("Que desea modificar: "))
+
+        if opcionDos == 1:
+            nombre_modificado = input("ingrese el nombre nuevo: ")
+            productos[id_encontrado][1] = nombre_modificado
+        elif opcionDos == 2:
+            precio_modificado = float(input("ingrese el nuevo precio: "))
+            while precio_modificado <= 0:
+                precio_modificado = float (input("El precio tiene que ser mayor a 0: "))
+            productos[id_encontrado][2] = precio_modificado
+        elif opcionDos == 3:
+            stock_modificado = int(input("ingrese el nuevo stock: "))
+            while stock_modificado <= 0:
+                stock_modificado = float (input("El stock tiene que ser mayor a 0: "))
+            productos[id_encontrado][3] = stock_modificado
+        else:
+            print("cancelado o no valido")
+    else:
+        print("No encontrado")
+    return productos
+
+def buscar_productos(productos, encabezado_producto):
+    if not productos:
+        print("El producto es inexistente")
+        return productos
+    buscarProductos = input("Ingrese el nombre, proovedor o categoria del producto deseado: ")
+    resultados = []
+
+    for filas in productos:
+        if ((buscarProductos in str(filas[1])) or (buscarProductos in str(filas[4])) or (buscarProductos in str(filas[5]))):
+            resultados.append(filas)
+
+    print(f"Si, encontre {len(resultados)} !")
+    imprimir_inventario(resultados, encabezado_producto, f"resultados encontrados para: {buscar_productos}")
+
+
+
 while opcion != "0":
     main() # Muestra menu
     opcion = input("Seleccione una opción: ")
@@ -149,7 +205,10 @@ while opcion != "0":
         productos, id_producto, id_categoria, id_proveedor = carga_producto(
             productos, id_producto, categorias, id_categoria, proveedores, id_proveedor
         )
-
+    elif opcion == "2":
+        buscar_productos(productos, encabezado_producto)
+    elif opcion == "3":
+        modificar_productos(productos)
     elif opcion == "6":
         # Mostramos los reportes que ya teniamos
         imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
@@ -170,4 +229,4 @@ while opcion != "0":
     else:
         print("\nOpción no válida. Intente de nuevo.")
 
-    ##if opcion != "0":
+    ##if opcion != "0":2
