@@ -22,7 +22,9 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
     """
     # PARTE 1
     # Generamos ID del producto
-    id_producto += 1
+    ultima_posicion = len(productos)-1 # Busca el último ID para incrementarlo en 1
+    ultimo_id_producto = productos[ultima_posicion][0]
+    id_producto = ultimo_id_producto + 1
     # Pedimos datos del producto al usuario
     print("\n--- Ingreso de datos del producto ---")
     nombre_producto = (input("Ingrese el nombre del producto: ")).upper()    
@@ -39,20 +41,35 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
 
     # PARTE 2
     print("\n--- CATEGORIA ---")
-    nombre_categoria = (input("Ingrese la categoria del producto: ")).upper()
-    id_categoria += 1
+    print("\nIndique la categoria del producto:")
+    print(categorias)
+    seleccion = int(input("Ingrese la categoría deseada, o ingrese 0 para cargar una nueva: "))
+    while seleccion < 0 or seleccion > len(categorias)+1:
+        seleccion = int(input("Ingreso una categoria incorrecta, intente nuevamente: "))
+    if seleccion > 0 and seleccion < len(categorias)+1:
+        id_categoria = seleccion
+        id_busqueda = seleccion-1
+        nombre_categoria = categorias[id_busqueda][1]
+        print(nombre_categoria)
+        flag_categoria_nueva = 0
+    else:
+        nombre_categoria = (input("Ingrese la categoria del producto: ")).upper()
+        id_categoria = len(categorias)+1
+        fila_categorias = [id_categoria,nombre_categoria]
+        flag_categoria_nueva = 1
+    
 
     # PARTE 3
     print("\n--- PROVEEDOR ---")
     nombre_proveedor = (input("Ingrese el proveedor del producto:")).upper()
-    telefono_proveedor = input("Ingrese telefono del proveedor (11 digitos): ")
-    while len(telefono_proveedor) != 11:
+    telefono_proveedor = input("Ingrese telefono del proveedor (10 digitos): ")
+    while len(telefono_proveedor) != 10:
         print(f"Error, tamaño invalido (ingresaste {len(telefono_proveedor)} dígitos)")
-        telefono_proveedor = input("Ingrese telefono del proveedor (11 digitos): ")
-
-    id_proveedor += 1 
+        telefono_proveedor = input("Ingrese telefono del proveedor (10 digitos): ")
+    id_proveedor = len(proveedores)+1
 
     fila_productos = [id_producto, nombre_producto, precio_producto, stock_producto, nombre_categoria, nombre_proveedor]
+    fila_proveedores = [id_proveedor,nombre_proveedor,telefono_proveedor,id_producto,nombre_producto]
 
     # Validación de existencia simple por nombre
     existe = False
@@ -64,9 +81,8 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
 
     if not existe:
         productos.append(fila_productos)
-        fila_categorias = [id_categoria, nombre_categoria, id_producto, nombre_producto]
-        categorias.append(fila_categorias)
-        fila_proveedores = [id_proveedor, nombre_proveedor, telefono_proveedor, id_producto, nombre_producto]
+        if flag_categoria_nueva == 1:
+            categorias.append(fila_categorias)
         proveedores.append(fila_proveedores)
         print("\n Producto cargado exitosamente.")
     else:
@@ -120,17 +136,34 @@ productos = [
 [6, "Jugo Cepita", 1400, 36, "Bebida", "Cítricos del Norte"],
 [7, "Coca Cola 600", 1650, 72, "Bebida", "Femsa Logística"],
 [8, "Marlboro", 3200, 20, "Cigarrillos", "Tabacalera Central"],
-[9, "Chicles Beldent", 700, 150, "Dulce", "Mondelēz Distribución"],
+[9, "Chicles Beldent", 700, 150, "Golosinas", "Mondelēz Distribución"],
 [10, "Agua 600", 1100, 48, "Bebida", "Aguas del Retiro"]
 ]
 id_producto = 0
 encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
 
-categorias = []
+categorias = [
+[1,"Dulce"],
+[2,"Bebida"],
+[3,"Snack"],
+[4,"Cigarrillos"],
+[5,"Golosinas"]    
+]
 id_categoria = 0
-encabezado_categoria = ["ID", "Categoria", "ID Producto", "Nombre Producto"]
+encabezado_categoria = ["ID", "Categoria"]
 
-proveedores = []
+proveedores = [
+[1,"Distribuidora Dulce Sur","1145882930",1,"Alfajor Oreo"],
+[2,"Energía Total S.A.","1159220041",2,"Red Bull"],
+[3,"Golosinas del Plata","1147618822",3,"Jorgito"],
+[4,"MacroSnacks Inc.","1130049512",4,"Doritos"],
+[5,"Distribuidora Pepsico","1148203300",5,"Papas Lays"],
+[6,"Cítricos del Norte","1165447189",6,"Jugo Cepita"],
+[7,"Femsa Logística","1122904455",7,"Coca Cola 600"],
+[8,"Tabacalera Central","1143019980",8,"Marlboro"],
+[9,"Mondelēz Distribución","1151126674",9,"Chicles Beldent"],
+[10,"Aguas del Retiro","1149902113",10,"Agua 600"]
+]
 id_proveedor = 0
 encabezado_provider = ["ID", "Proveedor", "Telefono", "ID Producto", "Producto"]
 
