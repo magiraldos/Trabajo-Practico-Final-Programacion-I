@@ -1,31 +1,74 @@
+
 def main():
+    print("Log in") 
+    print("1. Usuario")
+    print("2. Administrador")
+    opcion = int(input("Ingrese opcion: "))
+    while opcion <= 0 or opcion > 2:
+        print("Opcion invalida. Vuelva a intentarlo")
+        opcion = int(input("Ingrese opcion: "))
+    
+    if opcion == 1:
+        menu_user()
+    else:
+        menu_admin(clave_sistema)
+        
+def menu_user():s
     """
-    Esta funcion va a cumplir el rol del menu del sistema de control de inventario.
-    """ 
-    print("="*80)
-    print(f"{'Menu del Sistema':^80}")
-    print("="*80)
-    print("1. Cargar nuevo producto en el inventario") # HECHO
-    print("2. Buscar producto, proveedor o categoria") # ENCUESTA / ENCARGADO
-    print("3. Modificar producto, proveedor o categoria") # PENDIENTE
-    print("4. Eliminar producto, proveedor o categoria") # PENDIENTE
-    print("5. Realizar venta de producto") # PENDIENTE (IDEA: GENERAR FACTURA)   
-    print("6. Estadisticas") # PENDIENTE
-    print("0. Salir")
+    Función que determina el alcance del menú del usuario (operador / empleado)
+    Acceso parcial del sistema
+    """
+    print("Menu Usuario")
+    print("1. Realizar venta")
+    print("2. Buscar producto, categoria o proveedor")
+    print("0. Salir ")
+    opcion = int(input("Ingrese opcion: "))
+    while opcion < 0 or opcion > 5:
+        print("Error, opcion no valida. Intente de nuevo")
+        opcion = int(input("Ingrese opcion: "))
+    
+    if opcion == 1:
+        print("opcion 1")
+    elif opcion == 2:
+        print("opcion 2")
+    else:
+        print("Saliendo del programa")
 
-def Usuarios():
-    Admin = input("Usuario: ")
-    AdminContra = input("Contraseña: ")
-    while Admin != "0":
-        if Admin == "admin" and AdminContra == "admin":
-            print("Acceso concedido")
-            break
+def menu_admin(clave_sistema):
+    """
+    Función que determina el alcance del menú del Administrador ( gerente / dueño)
+    Acceso total del sistema
+    """
+    clave_entrante = input("Ingrese clave: ")
+    # clave_sistema estará previamente definida
+    if clave_entrante != clave_sistema:
+        print("Error, clave incorrecta. Acceso denegado")
+        main()
+    else:
+        print("Menu Administrador")
+        print("1. Agregar nuevo producto")
+        print("2. Buscar producto, categoria o preveedor")
+        print("3. Modificar producto, categoria o proveedor")
+        # Nota: que se muestren todos los productos al admin y al user solo los que tienen la bandera de baja lógica en falso
+        print("4. Dar de baja producto")
+        print("5. Estadisticas")
+        print("0. Salir")
+        opcion = int(input("Ingrese opcion: "))
+        while opcion < 0 or opcion > 5:
+            print("Error, opcion no valida. Intente de nuevo")
+            opcion = int(input("Ingrese opcion: "))
+        if opcion == 1:
+            carga_producto()
+        elif opcion == 2:
+            print("opcion 2")
+        elif opcion == 3:
+            print("opcion 3")
+        elif opcion == 4:
+            print("opcion 4")
+        elif opcion == 5:
+            print("opcion 5")
         else:
-            print("Incorreco")
-        Admin = input("Usuario: ")
-        AdminContra = input("Contraseña: ")
-
-
+            print("Saliendo del programa")
 
 def carga_producto(productos, id_producto, categorias, id_categoria, proveedores, id_proveedor):
     """
@@ -65,7 +108,6 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         telefono_proveedor = input("Ingrese telefono del proveedor (11 digitos): ")
 
     id_proveedor += 1 
-
     fila_productos = [id_producto, nombre_producto, precio_producto, stock_producto, nombre_categoria, nombre_proveedor]
 
     # Validación de existencia simple por nombre
@@ -75,7 +117,7 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         if productos[i][1] == nombre_producto:
             existe = True
         i += 1
-
+    # Si no existe se agregan los datos a las matrices
     if not existe:
         productos.append(fila_productos)
         fila_categorias = [id_categoria, nombre_categoria, id_producto, nombre_producto]
@@ -85,22 +127,9 @@ def carga_producto(productos, id_producto, categorias, id_categoria, proveedores
         print("\n Producto cargado exitosamente.")
     else:
         print("\n Ya existe este producto en el inventario.")
-
     return productos, id_producto, id_categoria, id_proveedor
 
-
-def obtener_stock(fila):
-    """ Retorna el valor del stock (índice 3) para que sorted pueda ordenar """
-    return fila[3]
-
-
-#  FUNCION PARA ORDENAMIENTO
-def ordenar_por_stock(matriz, descendente=False):
-    """ Ordena la matriz usando la función auxiliar """
-    return sorted(matriz, key=obtener_stock, reverse=descendente)
-
 def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
-
 
     if not identidad:
         print("\n No hay datos para mostrar.")
@@ -127,37 +156,11 @@ def imprimir_inventario(identidad, encabezado_identidad, titulo="REPORTE"):
         print()
     print("=" * (ancho * len(encabezado_identidad)) + "\n")
 
-# Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids
-# Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
-productos = [
-[1, "Alfajor Oreo", 1100, 50, "Dulce", "Distribuidora Dulce Sur"],
-[2, "Red Bull", 2800, 24, "Bebida", "Energía Total S.A."],
-[3, "Jorgito", 850, 100, "Dulce", "Golosinas del Plata"],
-[4, "Doritos", 2200, 30, "Snack", "MacroSnacks Inc."],
-[5, "Papas Lays", 1900, 45, "Snack", "Distribuidora Pepsico"],
-[6, "Jugo Cepita", 1400, 36, "Bebida", "Cítricos del Norte"],
-[7, "Coca Cola 600", 1650, 72, "Bebida", "Femsa Logística"],
-[8, "Marlboro", 3200, 20, "Cigarrillos", "Tabacalera Central"],
-[9, "Chicles Beldent", 700, 150, "Dulce", "Mondelēz Distribución"],
-[10, "Agua 600", 1100, 48, "Bebida", "Aguas del Retiro"]
-]
-id_producto = 0
-encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
-
-categorias = []
-id_categoria = 0
-encabezado_categoria = ["ID", "Categoria", "ID Producto", "Nombre Producto"]
-
-proveedores = []
-id_proveedor = 0
-encabezado_provider = ["ID", "Proveedor", "Telefono", "ID Producto", "Producto"]
-
-ventas = []
-id_ventas = 0
-encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"]
-# BUCLE PRINCIPAL 
-opcion = ""
-
+def imprimir_otras_matrices(identidad, encabezado_identidad):
+    """
+    Funcion que sirve para imprimir otras matrices más basicas que la de inventario que es mas grande.
+    Ej: proveedores, categoria, etc.
+    """
 
 def modificar_productos(productos):
     if not productos:
@@ -211,42 +214,37 @@ def buscar_productos(productos, encabezado_producto):
 
     print(f"Si, encontre {len(resultados)} !")
     imprimir_inventario(resultados, encabezado_producto, f"resultados encontrados para: {buscar_productos}")
+#Esto estará en un archivo imagino ?
+# Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids
+# Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
+# Despues se cambia
+clave_sistema = "12345"
 
+productos = [
+[1, "Alfajor Oreo", 1100, 50, "Dulce", "Distribuidora Dulce Sur"],
+[2, "Red Bull", 2800, 24, "Bebida", "Energía Total S.A."],
+[3, "Jorgito", 850, 100, "Dulce", "Golosinas del Plata"],
+[4, "Doritos", 2200, 30, "Snack", "MacroSnacks Inc."],
+[5, "Papas Lays", 1900, 45, "Snack", "Distribuidora Pepsico"],
+[6, "Jugo Cepita", 1400, 36, "Bebida", "Cítricos del Norte"],
+[7, "Coca Cola 600", 1650, 72, "Bebida", "Femsa Logística"],
+[8, "Marlboro", 3200, 20, "Cigarrillos", "Tabacalera Central"],
+[9, "Chicles Beldent", 700, 150, "Dulce", "Mondelēz Distribución"],
+[10, "Agua 600", 1100, 48, "Bebida", "Aguas del Retiro"]
+]
+id_producto = 0
+encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
 
+categorias = []
+id_categoria = 0
+encabezado_categoria = ["ID", "Categoria", "ID Producto", "Nombre Producto"]
 
-while opcion != "0":
-    Usuarios()
-    main() # Muestra menu
-    opcion = input("Seleccione una opción: ")
+proveedores = []
+id_proveedor = 0
+encabezado_provider = ["ID", "Proveedor", "Telefono", "ID Producto", "Producto"]
 
-    if opcion == "1":
-        # Ejecutamos la carga
-        productos, id_producto, id_categoria, id_proveedor = carga_producto(
-            productos, id_producto, categorias, id_categoria, proveedores, id_proveedor
-        )
-    elif opcion == "2":
-        buscar_productos(productos, encabezado_producto)
-    elif opcion == "3":
-        imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
-        modificar_productos(productos)
-    elif opcion == "6":
-        # Mostramos los reportes que ya teniamos    
-        imprimir_inventario(productos, encabezado_producto, "INVENTARIO COMPLETO")
+ventas = []
+id_ventas = 0
+encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"]
 
-        inv_asc = ordenar_por_stock(productos, descendente=False)
-        imprimir_inventario(inv_asc, encabezado_producto, "STOCK: MENOR A MAYOR")
-
-        inv_desc = ordenar_por_stock(productos, descendente=True)
-        imprimir_inventario(inv_desc, encabezado_producto, "STOCK: MAYOR A MENOR")
-
-    elif opcion == "0":
-        print("\nPrograma Finalizado, suerte Crack 🔵🟡")
-        print("\nPrograma Finalizado, suerte Crack 🔵🟡 <-- Murio en Madrid")
-
-    elif opcion in ["2", "3", "4", "5"]:
-        print(f"\nLa opción {opcion} no esta por ahora.")
-
-    else:
-        print("\nOpción no válida. Intente de nuevo.")
-
-    ##if opcion != "0":2
+main()
