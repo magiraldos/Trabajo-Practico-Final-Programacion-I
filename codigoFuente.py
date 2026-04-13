@@ -13,7 +13,7 @@ def main():
     else:
         menu_admin(clave_sistema)
         
-def menu_user():s
+def menu_user():
     """
     Función que determina el alcance del menú del usuario (operador / empleado)
     Acceso parcial del sistema
@@ -30,7 +30,20 @@ def menu_user():s
     if opcion == 1:
         print("opcion 1")
     elif opcion == 2:
-        print("opcion 2")
+        print("Busqueda de...")
+        print("1. Productos")
+        print("2. Categorias")
+        print("3. Proveedores")
+        sub_opcion = int(input("Ingrese opcion: "))
+        while opcion <= 0 or opcion > 3:
+            print("Error, opcion no valida. Intente de nuevo")
+            opcion = int(input("Ingrese opcion: "))
+        if sub_opcion == 1:
+            buscar_productos(productos, encabezado_producto)
+        elif sub_opcion == 2:
+            print("Buscar categorias")
+        else:
+            print("Buscar proveedores")
     else:
         print("Saliendo del programa")
 
@@ -58,7 +71,7 @@ def menu_admin(clave_sistema):
             print("Error, opcion no valida. Intente de nuevo")
             opcion = int(input("Ingrese opcion: "))
         if opcion == 1:
-            carga_producto()
+            carga_producto(productos, id_producto, categorias, id_categoria, proveedores, id_proveedor)
         elif opcion == 2:
             print("opcion 2")
         elif opcion == 3:
