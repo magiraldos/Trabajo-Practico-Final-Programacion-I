@@ -234,16 +234,16 @@ def buscar_productos(productos, encabezado_producto):
 clave_sistema = "12345"
 
 productos = [
-[1, "Alfajor Oreo", 1100, 50, "Dulce", "Distribuidora Dulce Sur"],
-[2, "Red Bull", 2800, 24, "Bebida", "Energía Total S.A."],
-[3, "Jorgito", 850, 100, "Dulce", "Golosinas del Plata"],
-[4, "Doritos", 2200, 30, "Snack", "MacroSnacks Inc."],
-[5, "Papas Lays", 1900, 45, "Snack", "Distribuidora Pepsico"],
-[6, "Jugo Cepita", 1400, 36, "Bebida", "Cítricos del Norte"],
-[7, "Coca Cola 600", 1650, 72, "Bebida", "Femsa Logística"],
-[8, "Marlboro", 3200, 20, "Cigarrillos", "Tabacalera Central"],
-[9, "Chicles Beldent", 700, 150, "Dulce", "Mondelēz Distribución"],
-[10, "Agua 600", 1100, 48, "Bebida", "Aguas del Retiro"]
+[1, "ALFAJOR OREO", 1100, 50, "DULCE", "DISTRIBUIDORA DULCE SUR"],
+[2, "RED BULL", 2800, 24, "BEBIDA", "ENERGIA TOTAL SA"],
+[3, "JORGITO", 850, 100, "DULCE", "GOLOSINAS DEL PLATA"],
+[4, "DORITOS", 2200, 30, "SNACK", "MACROSNACKS INC"],
+[5, "PAPAS LAYS", 1900, 45, "SNACK", "DISTRIBUIDORA PEPSICO"],
+[6, "JUGO CEPITA", 1400, 36, "BEBIDA", "CITRICOS DEL NORTE"],
+[7, "COCA COLA 600", 1650, 72, "BEBIDA", "FEMSA LOGISTICA"],
+[8, "MARLBORO", 3200, 20, "CIGARRILLOS", "TABACALERA CENTRAL"],
+[9, "CHICLES BELDENT", 700, 150, "DULCE", "MONDELEZ DISTRIBUCION"],
+[10, "AGUA 600", 1100, 48, "BEBIDA", "AGUAS DEL RETIRO"]
 ]
 id_producto = 0
 encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
