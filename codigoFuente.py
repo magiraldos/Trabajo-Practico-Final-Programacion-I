@@ -1,4 +1,3 @@
-
 def main():
     print("Log in") 
     print("1. Usuario")
@@ -226,7 +225,64 @@ def buscar_productos(productos, encabezado_producto):
             resultados.append(filas)
 
     print(f"Si, encontre {len(resultados)} !")
-    imprimir_inventario(resultados, encabezado_producto, f"resultados encontrados para: {buscar_productos}")
+    imprimir_inventario(resultados, encabezado_producto, f"resultados encontrados para: {buscarProductos}")
+
+
+"""
+def imprimir_encabezado(empresa):
+    linea = "=" * 80
+    razon_social = empresa[0].title()
+    cuit = empresa[1]
+    cuit_texto = f'CUIT {cuit[:2]}-{cuit[2:10]}-{cuit[len(cuit)-1:]}'
+    domicilio_completo = f'Domicilio fiscal: {empresa[2]}, {empresa[3].upper()}'
+    factura_completo = f'Factura B N° 0002-{str(empresa[4]).zfill(8)}'
+    
+    print(linea)
+    print(factura_completo.rjust(80))
+    print()
+    print(razon_social.ljust(39), cuit_texto.rjust(40))
+    print(domicilio_completo)
+    print(f"Web: {empresa[7].lower()}")
+    print(f"{'Soporte: ' + empresa[8]:<39} {'Periodo: ' + str(empresa[5]) + '-' + str(empresa[6]).zfill(2):>40}")
+    print(linea)
+
+def mostrar_productos_factura(matriz, encabezados):
+    print(f'{encabezados[0]:<8}{encabezados[1]:<40}{encabezados[2]:>12}{encabezados[3]:>8}{encabezados[4]:>12}')
+    print("-" * 80)
+    
+    lineas_factura = []
+    
+    for p in matriz:
+        subtotal = p[2] * p[3]
+        desc = p[1][:36] + "..." if len(p[1]) > 39 else p[1]
+        linea_tupla = (p[0], desc, p[2], p[3], subtotal)
+        lineas_factura.append(linea_tupla)
+        
+    for t in lineas_factura:
+        print(f'{t[0]:<8}{t[1]:<40}{t[2]:>12.2f}{t[3]:>8}{t[4]:>12.2f}')
+        
+    print("-" * 80)
+    return lineas_factura
+
+def mostrar_totales(lineas_factura):
+    subtotal_general = sum(t[4] for t in lineas_factura)
+    iva = subtotal_general * 0.21
+    total = subtotal_general + iva
+    
+    print(f'{"SUBTOTAL:":>68}{subtotal_general:>12.2f}')
+    print(f'{"IVA 21%:":>68}{iva:>12.2f}')
+    print(f'{"TOTAL:":>68}{total:>12.2f}')
+    print("=" * 80)
+
+def imprimir_factura(empresa, matriz, encabezados):
+    if not matriz:
+        print("\nNo hay productos para facturar.")
+        return
+        
+    imprimir_encabezado(empresa)
+    lineas_factura = mostrar_productos_factura(matriz, encabezados)
+    mostrar_totales(lineas_factura)
+
 #Esto estará en un archivo imagino ?
 # Definimos las estructuras de datos: Matrices y sus respectivos encabezados y ids
 # Cuando se va a cargar, se deben llenar todas las matrices (a excepción de ventas que es para el egreso)
@@ -247,7 +303,7 @@ productos = [
 ]
 id_producto = 0
 encabezado_producto = ["ID", "Producto", "Precio", "Stock", "Categoria", "Proveedores"]
-
+"""
 categorias = []
 id_categoria = 0
 encabezado_categoria = ["ID", "Categoria", "ID Producto", "Nombre Producto"]
@@ -260,13 +316,16 @@ ventas = []
 id_ventas = 0
 encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"]
 
+empresa = ["supermercado 'Al Paso'", "30787654321", "Av. San Martin 2355", "Buenos Aires", 1234, 2025, 8, "www.alpaso.com", "contacto@elbuensabor.com"]
+encabezados_factura = ["Código", "Descripción", "P. Unitario", "Cant.", "Subtotal"]
+
 main()
 
 """
 def main(login_account):
     
     print("\n" + "=" * 30)
-    print("         LOG IN")
+    print("        LOG IN")
     print("=" * 30)
     print("  1. Usuario")
     print("  2. Administrador")
