@@ -261,3 +261,40 @@ id_ventas = 0
 encabezado_ventas = ["ID Venta", "ID Producto", "Cantidad Vendida", "Precio Total"]
 
 main()
+
+"""
+def main(login_account):
+    
+    print("\n" + "=" * 30)
+    print("         LOG IN")
+    print("=" * 30)
+    print("  1. Usuario")
+    print("  2. Administrador")
+    print("-" * 30)
+    
+    opcion = int(input("  Ingrese opcion: "))
+    while opcion <= 0 or opcion > 2:
+        print("\n  [!] Opcion invalida. Vuelva a intentarlo")
+        opcion = int(input("  Ingrese opcion: "))
+    
+    if opcion == 1:
+        login_account[0]['MENU']
+    else:
+        print("\n" + "=" * 30)
+        print("      ACCESO ADMINISTRADOR")
+        print("=" * 30)
+
+        clave = input("  Ingrese clave: ")
+        while clave != login_account[1]['PASSWORD']:
+            print("  Clave incorrecta, vuelva a intentarlo")
+            clave = input("  Ingrese clave: ")
+        login_account[0]['MENU']
+
+# Diccionario
+login_account = [
+    { 'Account': 'USER', 'MENU': 'menu_user', 'PASSWORD': None},
+    { 'Account': 'ADMIN', 'MENU': 'menu_admin', 'PASSWORD': '12345'}
+]
+# Nota, en la parte de key = MENU, hay que llamar a la funcion que imprima menu de determinada cuenta.
+
+"""
