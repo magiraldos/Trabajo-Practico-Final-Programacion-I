@@ -79,7 +79,6 @@ for p in proveedores:
         "producto": p[4]
     }
 
-
 def imprimir_productos():
     # Imprime los enunciados de las columnas
     print(f"{"ID":<6}{"PRODUCTO":<20}{"PRECIO":<12}{"STOCK":<12}{"CATEGORIA":<20}{"PROVEEDOR":<30}{"ACTIVO"}")
@@ -94,7 +93,6 @@ def imprimir_productos():
         act = datos['activo']
         
         print(f"{id_prod:<6}{nombre:<20}${precio:<11}{stock:<12}{cat:<20}{prov:<30}{act:^6}")
-
 
 def imprimir_producto_resaltado(sel):
 # Imprime los enunciados de las columnas
@@ -175,8 +173,10 @@ def cargar_nuevo_producto(nombre): #Ya recibe por parametro el nombre del produc
     else:
         print(f"\nLa carga del producto {nombre} fue anulada correctamente") #Si anula la carga se desecha
 
-#Funcion para actualizar stock. Recibe como argumento el id del producto a modificar
 def carga_stock(sel): 
+    """
+    Funcion para actualizar stock. Recibe como argumento el id del producto a modificar
+    """
     print("=" * 45)
     print(f"{"||"}{"ACTUALIZACION DE STOCK":^38}{"||":>2}")
     print("=" * 45)
@@ -232,11 +232,8 @@ def carga_stock(sel):
         imprimir_producto_resaltado(sel)
         print("\n\n")
 
-        
-        
-        
-
 def carga_producto():
+    """ SUBMENU para cargar producto o modificar stock de un producto existente (en caso de error en el stock de la carga de un nuevo producto)"""
     opcion = ""
     while opcion != "0":
         print("="*80)
@@ -277,6 +274,7 @@ def carga_producto():
             print("\nOpción no válida. Intente de nuevo.")
 
 def buscar_producto():
+    """SUBMENU para buscar producto, proveedor o categoria"""
     opcion = 100
     while opcion != 0:
         print("="*80)
@@ -335,10 +333,11 @@ def buscar_producto():
             print("\nOpción no válida. Intente de nuevo.")
     
 def modificar_producto():
+    """SUBMENU para la modificacion de un producto o proveedor"""
     opcion = 100
     while opcion != 0:
         print("="*80)
-        print(f"{'Menu de modificación':^80}") #submenu
+        print(f"{'Menu de modificación':^80}") 
         print("="*80)
         print("1. Modificar producto") 
         print("2. Modificar proveedor")
@@ -411,8 +410,8 @@ def modificar_producto():
         else:
             print("\nOpción no válida. Intente de nuevo.")           
 
-
 def modificar_categoria():
+    """Funcion que muestra las categorias existentes que sirve de apoyo en la carga de producto, 0 para cargar nueva, id de categoria para asignar al producto"""
     print("\n--- CATEGORIA ---")
     print(f"\nCategorias existentes:")
     print("=" * 26)
@@ -470,8 +469,7 @@ def estadisticas():
             listado_de_productos()
         elif opcion == 2:
             reporte_ventas()
-            
-            
+                       
 def listado_de_productos():
     print("="*80)
     print(f"{'Sub menu de estadisticas - Listado de productos':^80}") #submenu
@@ -567,7 +565,6 @@ def listado_de_productos():
     else:
         print("Opcion incorrecta, Intente nuevamente\n")
 
-
 # FUNCIONES PARA FACTURA
 
 def imprimir_encabezado(empresa):
@@ -653,6 +650,7 @@ def mostrar_totales(matriz_productos):
 #FIN FUNCIONES PARA FACTURA
 
 def cargar_venta():
+    """"""
     nueva_fact = agregar_producto() #Va a seleccionar todos los productos a vender y los guarda en la lista nueva_fact
     id_cant = {l[0]:l[3] for l in nueva_fact}
     n_fac= imprimir_encabezado(empresa) #Imprime el encabezado y guarda el nro de factura
@@ -665,8 +663,8 @@ def cargar_venta():
         "total": total
     }
 
-
 def reporte_ventas():
+    """FUNCION DE REPORTE DE VENTAS, LE SIRVE AL ADMINISTRADOR"""
     print("\n"+"="*80)
     print(f"{'REPORTE DE VENTAS':^80}")
     print("="*80)
@@ -730,15 +728,17 @@ def reporte_ventas():
     else:
         print("\nAun no se registran ventas\n")
 
-
 def menu_user():
+    """MENU CON ACCESO PARCIAL AL PROGRAMA (interfaz)"""
     print("="*80)
     print(f"{'Menu del Sistema':^80}")
     print("="*80)
     print("1. Realizar venta de producto") 
-    print("2. Buscar producto, proveedor o categoria") # OK
+    print("2. Buscar producto, proveedor o categoria") 
+    print("0. Salir")
 
 def menu_admin():
+    """MENU CON ACCESO COMPLETO AL PROGRAMA (interfaz)"""
     print("="*80)
     print(f"{'Menu del Sistema':^80}")
     print("="*80)
@@ -750,8 +750,8 @@ def menu_admin():
     print("6. Estadisticas") # OK, FALTA REPORTE DE VENTAS
     print("0. Salir")
 
-
 def main(login_account):
+    """FUNCION QUE DETERMINA EL NIVEL DE ACCESO AL PROGRAMA, USUARIO O ADMIN"""
     login = 0
     print("\n" + "=" * 30)
     print("         LOG IN")
@@ -817,7 +817,6 @@ def main(login_account):
                         clave = input("  Ingrese clave: ").strip()
             else:
                 print("\nUsuario invalido. Intente nuevamente.")
-
 
 opcion = "" #Inicializa la variable del menú vacía
 main(login_account)
