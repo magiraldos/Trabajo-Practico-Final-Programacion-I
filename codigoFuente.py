@@ -558,12 +558,6 @@ def listado_de_productos():
         print("-" * 100)
         for id, datos in filtrados:
             print(f"{id:<6}{datos["nombre"]:<20}${datos["precio"]:<11}{datos["stock"]:<12}{datos["categoria"]:<20}{datos["proveedor"]:<30}{datos["activo"]:^6}")
-    
-    if opcion == 0:
-        print("\nRegresa al menu anterior\n")
-    
-    else:
-        print("Opcion incorrecta, Intente nuevamente\n")
 
 # FUNCIONES PARA FACTURA
 
