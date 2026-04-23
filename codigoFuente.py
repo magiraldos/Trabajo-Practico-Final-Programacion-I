@@ -145,9 +145,9 @@ def cargar_nuevo_producto(nombre): #Ya recibe por parametro el nombre del produc
         }
     proveedor = input("Ingrese el proveedor: ").upper()
     id_prov = max(proveedores_dict.keys()) + 1
-    telefono = int(input("Ingrese el telefono del proveedor sin guiones y con codigo de area sin 0\nPor ejemplo: 1122334455: "))
+    telefono = int(input("Ingrese el telefono del proveedor sin guiones y con codigo de area sin 0\nPor ejemplo: 1122334455: \n"))
     while len(str(telefono)) != 10:
-        telefono = input("Telefono incorrecto, ingrese nuevamente: ")
+        telefono = int(input("Telefono incorrecto, ingrese nuevamente: "))
     print(f"{"PRODUCTO":<20}{"PRECIO":<12}{"STOCK":<12}{"CATEGORIA":<20}{"PROVEEDOR":<30}{"ACTIVO"}")
     print("-" * 100)
     print(f"{nombre:<20}${precio:<11}{stock:<12}{categoria:<20}{proveedor:<30}{"Y":^6}") #Imprimo todo sin el id para confirmar
@@ -399,9 +399,9 @@ def modificar_producto():
                 print("-" * 69)
                 p = proveedores_dict[sel]
                 print(f"{sel:<6}{p["nombre"]:<20}{p["telefono"]:<12}{p["id producto"]:<6}{p["producto"]:<20}")
-                telefono = int(input("\nIngrese el nuevo telefono del proveedor sin guiones y con codigo de area sin 0\nPor ejemplo: 1122334455: "))
-                while len(str(telefono)) != 10 or type(telefono) is not int:
-                    telefono = input("Telefono incorrecto, ingrese nuevamente: ")
+                telefono = int(input("\nIngrese el nuevo telefono del proveedor sin guiones y con codigo de area sin 0\nPor ejemplo: 1122334455: \n"))
+                while len(str(telefono)) != 10:
+                    telefono = int(input("Telefono incorrecto, ingrese nuevamente: "))
                 p["telefono"] = telefono
             else:
                 print(f"\nNo se encontraron proveedores similares a {nombre}")         
