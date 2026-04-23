@@ -146,12 +146,12 @@ def cargar_nuevo_producto(nombre): #Ya recibe por parametro el nombre del produc
     proveedor = input("Ingrese el proveedor: ").upper()
     id_prov = max(proveedores_dict.keys()) + 1
     telefono = int(input("Ingrese el telefono del proveedor sin guiones y con codigo de area sin 0\nPor ejemplo: 1122334455: "))
-    while len(str(telefono)) != 10 or type(telefono) is not int:
+    while len(str(telefono)) != 10:
         telefono = input("Telefono incorrecto, ingrese nuevamente: ")
     print(f"{"PRODUCTO":<20}{"PRECIO":<12}{"STOCK":<12}{"CATEGORIA":<20}{"PROVEEDOR":<30}{"ACTIVO"}")
     print("-" * 100)
     print(f"{nombre:<20}${precio:<11}{stock:<12}{categoria:<20}{proveedor:<30}{"Y":^6}") #Imprimo todo sin el id para confirmar
-    sel = input("Confirma los datos para su carga? (SI/NO): ")
+    sel = (input("Confirma los datos para su carga? (SI/NO): ")).upper()
     while sel != "SI" and sel != "NO":
         sel = input("Responda SI O NO\n¿Desea modificar alguno de estos productos? (SI/NO): ").upper()
     if sel == "SI": #Si el usuario confirma la carga se procede a rellenar los diccionarios correspondientes
