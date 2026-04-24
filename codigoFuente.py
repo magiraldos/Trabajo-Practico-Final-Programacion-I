@@ -734,7 +734,7 @@ def menu_user():
 def menu_admin():
     """MENU CON ACCESO COMPLETO AL PROGRAMA (interfaz)"""
     print("="*80)
-    print(f"{'Menu del Sistema':^80}")
+    print(f"\033[36m{'Menu del Sistema':^80}\033[0m")
     print("="*80)
     print("1. Cargar nuevo producto en el inventario") # OK
     print("2. Buscar producto, proveedor o categoria") # OK
@@ -748,7 +748,7 @@ def main(login_account):
     """FUNCION QUE DETERMINA EL NIVEL DE ACCESO AL PROGRAMA, USUARIO O ADMIN"""
     login = 0
     print("\n" + "=" * 30)
-    print("         LOG IN")
+    print("\033[33m         LOG IN\033[0m")
     print("=" * 30)
     print("  1. Usuario")
     print("  2. Administrador")
@@ -756,7 +756,7 @@ def main(login_account):
     
     opcion = int(input("  Ingrese opcion: "))
     while opcion <= 0 or opcion > 2:
-        print("\n  [!] Opcion invalida. Vuelva a intentarlo")
+        print("\033[31m\n  [!] Opcion invalida. Vuelva a intentarlo\033[0m")
         opcion = int(input("  Ingrese opcion: "))
     
     if opcion == 1:
@@ -769,9 +769,9 @@ def main(login_account):
             elif opcion == "2":
                 buscar_producto()
             elif opcion == "0":
-                print("\nPrograma Finalizado correctamente. Muchas gracias")
+                print("\033[32m\nPrograma Finalizado correctamente. Muchas gracias\033[0m")
             else:
-                print("\nOpción no válida. Intente de nuevo.")
+                print("\033[31m\nOpción no válida. Intente de nuevo.\033[0m")
     else:
         while login != 1:
             print("\n" + "=" * 30)
@@ -783,7 +783,7 @@ def main(login_account):
                 while login != 1:
                     if login_account[user] == clave:
                         print("\n" + "=" * 20)
-                        print(f"\nBienvenido {user}")
+                        print(f"\033[32m\nBienvenido {user}\033[0m")
                         print("\n" + "=" * 20+"\n")
                         login = 1
                         while opcion != "0":
@@ -803,14 +803,14 @@ def main(login_account):
                             elif opcion == "6":
                                 estadisticas()
                             elif opcion == "0":
-                                print("\nPrograma Finalizado correctamente. Muchas gracias")
+                                print("\033[32m\nPrograma Finalizado correctamente. Muchas gracias\033[0m")
                             else:
-                                print("\nOpción no válida. Intente de nuevo.")
+                                print("\033[31m\nOpción no válida. Intente de nuevo.\033[0m")
                     else:
-                        print("\nContraseña incorrecta, Intente nuevamente.")
+                        print("\033[31m\nContraseña incorrecta, Intente nuevamente.\033[0m")
                         clave = input("  Ingrese clave: ").strip()
             else:
-                print("\nUsuario invalido. Intente nuevamente.")
+                print("\033[31m0\nUsuario invalido. Intente nuevamente.\033[0m")
 
 opcion = "" #Inicializa la variable del menú vacía
 main(login_account)
