@@ -1,6 +1,7 @@
 # Datos que deben estar en archivos
 #========================================/
 #SE CREA LISTA CON DATOS DEL KIOSCO PARA EL ENCABEZADO DE LA FACTURA
+import re
 empresa = ["Kiosco 'La Puerta Lijada'", "30787654321", "Saraza 6247", "caba", 2026, 4, "WWW.LAPUERTALIJADA.COM", "contacto@lapuertalijada.com"]
 encabezados_detalle = ["Código", "Descripción", "P. Unitario", "Cant.", "Subtotal"]
 
@@ -46,7 +47,7 @@ accounts = [{"username": "user","password": None}, {"username": "admin", "passwo
 #========================================
 
 # Inicio de programa (es lo unico que tiene que quedar en "Principal")
-def main(cuentas, productos, categorias, proveedores, facturas):
+def main(cuentas, productos, categorias, proveedores):
     """FUNCION QUE DETERMINA EL NIVEL DE ACCESO AL PROGRAMA, USUARIO O ADMIN y tronco del Sistema"""
     while True:
         try:
@@ -59,7 +60,7 @@ def main(cuentas, productos, categorias, proveedores, facturas):
                 opcion = int(input("Seleccione forma de acceso: "))
             if opcion == 1:
                 nivel_permiso = 0
-                menu_principal(nivel_permiso, productos, categorias, proveedores, facturas)
+                menu_principal(nivel_permiso, productos, categorias, proveedores)
             elif opcion == 2:
                 # con expresiones regulares podemos hacer algo aca !!!
                 password_login = input("Ingrese contraseña: ")
@@ -70,7 +71,7 @@ def main(cuentas, productos, categorias, proveedores, facturas):
                 if password_login != "0":
                     print("Acceso correcto")
                     nivel_permiso = 1
-                    menu_principal(nivel_permiso, productos, categorias, proveedores, facturas)
+                    menu_principal(nivel_permiso, productos, categorias, proveedores)
                 else:
                     main(cuentas) 
             else:
@@ -113,7 +114,7 @@ def menu_admin():
     print("5. Estadisticas") 
     print("0. Salir")
 
-def menu_principal(nivel_acceso,productos, categorias, proveedores, facturas): # HAY QUE AGREGAR EN CADA FUNCION QUE LLAME A LAS ESTRUCTURAS LOS ARGUMENTOS QUE REDIRIJAN A ELLAS, ASI EVITAMOS USAR VARIABLES GLOBALES
+def menu_principal(nivel_acceso,productos, categorias, proveedores): # HAY QUE AGREGAR EN CADA FUNCION QUE LLAME A LAS ESTRUCTURAS LOS ARGUMENTOS QUE REDIRIJAN A ELLAS, ASI EVITAMOS USAR VARIABLES GLOBALES
     """Se dirigira al operador del sistema segun el nivel de acceso, USER o ADMIN, que dispondra de un abanico de funcines en relacion al rol correspondiente"""
     if nivel_acceso == 0:
         while True:
@@ -168,7 +169,7 @@ def menu_principal(nivel_acceso,productos, categorias, proveedores, facturas): #
                     break
             except:
                 print("Error en el ingreso de la opcion")
-  #========================================  
+
    
 def menu_gestion_productos():
     """ Menu de la gestion de productos"""
@@ -181,6 +182,31 @@ def menu_gestion_productos():
     print("4. Eliminacion de producto") 
     print("0. Salir")
  
+def submenu_busqueda_productos():
+    """Submenu de la funcion de busqueda de productos"""
+    print("="*80)
+    print(f"\033[36m{'Busqueda de Productos':^80}\033[0m")
+    print("="*80)
+    print("1. Por coincidencia en el texto") 
+    print("2. Rango de precios") 
+    print("3. Por estado") 
+    print("4. Productos sin categoria") 
+    print("5. Productos sin proveedor")
+    print("0. Salir")
+
+def submenu_modificar_productos():
+    """Modificar datos del producto"""
+    print("="*80)
+    print(f"\033[36m{'Modificacion de Producto':^80}\033[0m")
+    print("="*80)
+    print("1. Nombre") 
+    print("2. Precio") 
+    print("3. Stock") 
+    print("4. Cateogria") 
+    print("5. Proveedor")
+    print("6. Estado")
+    print("0. Salir")
+
 def menu_gestion_categorias():
     """ Menu de la gestion de productos"""
     print("="*80)
@@ -192,6 +218,27 @@ def menu_gestion_categorias():
     print("4. Eliminacion de Categoria") 
     print("0. Salir")
 
+def submenu_busqueda_categorias():
+    """submenu de busqueda de categorias"""
+    print("="*80)
+    print(f"\033[36m{'Busqueda de Categorias':^80}\033[0m")
+    print("="*80)
+    print("1. Por coincidencia en el texto") 
+    print("2. Volumen de productos") 
+    print("3. ") 
+    print("4. Productos sin categoria") 
+    print("5. Productos sin proveedor")
+    print("0. Salir")
+    
+def submenu_modificar_categorias():
+    """submenu de modificación de categorías"""
+    print("1. Nombre") 
+    print("2. ") 
+    print("3. ") 
+    print("4. Productos sin categoria") 
+    print("5. Productos sin proveedor")
+    print("0. Salir")
+    
 def menu_gestion_proveedores():
     """ Menu de la gestion de productos"""
     print("="*80)
@@ -203,16 +250,21 @@ def menu_gestion_proveedores():
     print("4. Eliminacion de Proveedores") 
     print("0. Salir")
 
+def submenu_busqueda_proveedores():
+    """"""
+def submenu_modificar_proveedores():
+    """"""
+#========================================  
+
 #========================================   
 # CRUD
 #========================================/
 def cargar_nuevo_producto(productos, categorias, proveedores):
-    """agrega nuevo producto al sistema // preguntar por categoria/proveedor existente, si existe que busque concidencias y luego obligue a que sea una de esas, sino será creada"""
+    """agrega nuevo producto al sistema"""
     producto = input("Ingrese nombre del nuevo producto: ").upper()
     # Buscamos coincidencias en la lista de diccionarios
     # esto deberia estar en busqueda de productos, es decir, hacerla una funcion para poder reutilizarla aca y allá
-    coincidencias = [p for p in productos if producto in p["producto"]]
-    # LO DE LAS COINCIDENCIAS HAY QUE REEMPLAZARLO CON EL MODULO .RE
+    coincidencias = [p for p in productos if re.search(producto, p["producto"])]
     if coincidencias:
         print(f"\nSe encontraron productos similares a '{producto}':")
         print(f"{'ID':<4}| {'PRODUCTO':<20}")
@@ -221,18 +273,20 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
             print(f"{p['id']:<4}| {p['producto']:<20}")
     else:
         print("\nNo se encontraron coincidencias\n")
+
     while True:
         try:
             eleccion = input("\n¿Desea cargar nuevo producto ( N / Y)? ").upper()
             while eleccion != "Y" and eleccion != "N":
                 print("Error, eleccion invalida, vuelva a intentar")
                 eleccion = input("Ingrese N / Y:  ").upper()
+                
             if eleccion == "Y":
                 # --- Lógica de Carga ---
                 # Para el ID, buscamos el máximo ID actual en la lista y sumamos 1
                 nuevo_id = len(productos) + 1
                 print("\nCARGA DE PRODUCTO NUEVO")
-                producto = input("Ingrese nombre del producto: ").upper()
+                producto = input("Ingrese nombre del producto nuevamente: ").upper()
                 precio = int(input("Ingrese el precio: "))
                 while precio <= 0:
                     print("Error, el precio debe ser mayor a 0")
@@ -242,40 +296,42 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                     print("Error, el stock debe ser mayor o igual a 0")
                     precio = int(input("Ingrese stock: "))
                 # Relacionar producto con categoria
-                print("\n--- CATEGORIAS EXISTENTES ---")
+                print("\n--- CATEGORIA ---") #Imprime las categorias actuales para que el usuario pueda elegir sin duplicar
+                print(f"\nCategorias existentes:")
+                print("=" * 26)
                 print(f"{'ID':<4}| {'CATEGORIA':<20}")
                 print("-" * 26)
                 for cat in categorias:
-                    print(f"{cat['id']:<4}| {cat['categoria']:<20}") 
-                sel_cat = int(input("Ingrese el ID de la categoria del producto o 0 para cargar una nueva: "))
-                max_id = len(categorias)
-                while sel_cat < 0 or sel_cat > max_id:
-                    print("Ingreso invalido, vuelva a intentarlo.")
-                    sel_cat = int(input("Ingrese el ID de la categoria del producto o 0 para cargar una nueva: "))
-                if sel_cat == 0:
-                    cargar_nueva_categoria(categorias)
-                else:
-                    categoria = categorias[sel_cat]["categoria"] 
-                # Relacionar producto con proveedor
-                print("\n--- PROVEEDORES EXISTENTES ---")
+                    print(f"{cat['id']:<4}| {cat['categoria']:<20}")
+                sel = int(input("Ingrese el ID de la categoría deseada ( 0 para una nueva): "))
+                max_id_cat = len(categorias) #Tomo el maximo para asegurarme que el usuario coloque un id valido
+                while sel < 0 or sel > max_id_cat:
+                    sel = int(input("SELECCIÓN INCORRECTA, INTENTE NUEVAMENTE: "))
+                if sel != 0: #Si la opcion ingresada corresponde a un id valido automaticamente tomo el valor del nombre para ese id
+                    categoria = categorias[sel - 1]["categoria"] 
+                else: #Si el usuario ingresa 0 le permito cargar una nueva categoria
+                    categoria = cargar_nueva_categoria(categorias)
+                print("\n--- PROVEEDOR ---") 
+                print(f"\Proveedores existentes:")
+                print("=" * 26)
                 print(f"{'ID':<4}| {'PROVEEDOR':<20}")
                 print("-" * 26)
                 for prov in proveedores:
-                    print(f"{prov['id']:<4}| {prov['proveedor']:<20}") 
-                sel_prov = int(input("Ingrese el ID del proveedor o 0 para uno nuevo: "))
-                max_id = len(proveedores)
-                while sel_prov < 0 or sel_cat > max_id:
-                    print("Ingreso invalido, vuelva a intentarlo.")
-                    sel_prov = int(input("Ingrese el ID del proveedor o 0 para uno nuevo: "))
-                if sel_prov == 0:
+                    print(f"{prov['id']:<4}| {prov['proveedor']:<20}")
+                sel = int(input("Ingrese el ID del proveedor deseado ( 0 para una nueva): "))
+                max_id_prov = len(proveedores) 
+                while sel < 0 or sel > max_id_prov:
+                    sel = int(input("SELECCIÓN INCORRECTA, INTENTE NUEVAMENTE: "))
+                if sel != 0: 
+                    proveedor = proveedores[sel - 1]["proveedor"] 
+                else: 
                     proveedor = cargar_nuevo_proveedor(proveedores)
-                else:
-                    proveedor = proveedores[sel_prov]["proveedor"] 
+                    
                 # Confirmacion de todos los datos que se cargaran en productos
-                confirmar = input(f"¿Confirma la carga de {producto}? (N/Y): ").upper()
+                confirmar = input(f"¿Confirma la carga de {producto}? ( N / Y ): ").upper()
                 while confirmar != "Y" and confirmar != "N":
                     print("Opcion invalida, vuelva a intentarlo")
-                    confirmar = input("¿Confirma la carga de {producto}? (N/Y): ")
+                    confirmar = input(f"¿Confirma la carga de {producto}? ( N / Y ): ")
                 if confirmar == "Y":
                     nuevo_producto = {
                         "id": nuevo_id,
@@ -289,12 +345,14 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                     productos.append(nuevo_producto)
                     print(f"Producto {producto} cargado con éxito.")
                 else:
-                    print(f"Carga del Producto {producto} cancelada")
+                    print(f"Carga del Producto {producto} cancelada")       
             break
         except:
             print("Eleccion no valida, vuelva a intentar")
 
 def buscar_producto():
+    submenu_busqueda_productos()
+    
     "busca producto en el sistema // por texto predictivo, por rango de precios (min,max), por estado (baja logica), ¿por stock crítico (habría que establecer el minimo y agregar una bandera que indique el estado), productos sin proveedor, productos sin proveedor?"
 def modificar_producto():
     "modifica los datos de un producto del sistema // se me ocurre que cuando se eliminen proveedores de productos existentes, estos pasen a figurar Sin proveedor, y puedas modificar por filtros todos esos, capaz filtrando tambien por categoría, viceversa"
@@ -305,7 +363,7 @@ def cargar_nueva_categoria(categorias):
     """agrega nueva categoria al sistema"""
     categoria = input("Ingrese nombre de la categoria para encontrar coincidencias: ").upper()
     # Buscamos coincidencias en la lista de diccionarios de categorias
-    coincidencias = [c for c in categorias if categoria in c["categoria"]]
+    coincidencias = [c for c in categorias if re.search(categoria, c["categoria"])]
     if coincidencias:
         print(f"\nSe encontraron categorias similares a '{categoria}':")
         print(f"{'ID':<4}| {'CATEGORIA':<20}")
@@ -314,10 +372,10 @@ def cargar_nueva_categoria(categorias):
             print(f"{c['id']:<4}| {c['categoria']:<20}")
     else:
         print("\nNo se encontraron coincidencias\n")
-    categoria = input("Ingrese nombre de la nueva categoria: ").upper()
+    
+    categoria = input("Ingrese nombre de la nueva categoria (0 para cancelar): ").upper()
     while categoria in categorias[1]["categoria"] and categoria != "0":
         print(f"ERROR, la categoria '{categoria}' ya existe")
-        print("Ingrese 0 para cancelar")
         categoria = input("Ingrese la nueva categoria: ").upper()
     if categoria != "0":
         nuevo_id_categoria = len(categorias) + 1
@@ -328,15 +386,10 @@ def cargar_nueva_categoria(categorias):
         categorias.append(nueva_categoria)
         print("Nueva categoria cargada con exito")
     else:
-        print("Se cancela carga de la nueva categoria, se le asignara al producto SINCATEGORIA")
+        print("Se ha cancelado la carga de categoria o se asigno SINCATEGORIA")
         categoria = "SINCATEGORIA"
-        nuevo_id_categoria = len(categorias) + 1
-        nueva_categoria = {
-            "id": nuevo_id_categoria,
-            "categoria": categoria
-        }
-        categorias.append(nueva_categoria)
     return categoria
+
     
 def buscar_categoria():
     "busca categoria en el sistema // por texto predictivo, según el volumen de productos que contienen, ¿categorias vacias?"
@@ -346,9 +399,40 @@ def modificar_categoria():
 def eliminar_categoria():
     "elimina categoria del sistema, junto con todos sus datos (afectara tambien a productos)"
 
-def cargar_nuevo_proveedor():
-    "agrega nuevo proveedor al sistema"
-    print("CARGANDO")
+def cargar_nuevo_proveedor(proveedores):
+    proveedor = input("Ingrese nombre del proveedor para encontrar coincidencias: ").upper()
+    # Buscamos coincidencias en la lista de diccionarios de proveedores
+    coincidencias = [prov for prov in proveedores if re.search(proveedor, prov["proveedor"])]
+    if coincidencias:
+        print(f"\nSe encontraron proveedores similares a '{proveedor}':")
+        print(f"{'ID':<4}| {'PROVEEDOR':<20}")
+        print("-" * 26)
+        for prov in proveedores:
+            print(f"{prov['id']:<4}| {prov['proveedor']:<20}")
+    else:
+        print("\nNo se encontraron coincidencias\n")
+    
+    proveedor = input("Ingrese nombre del nuevo proveedor (0 para cancelar): ").upper()
+    while proveedor in proveedores[1]["proveedor"] and proveedor != "0":
+        print(f"ERROR, el proveedor '{proveedor}' ya existe")
+        proveedor = input("Ingrese el nuevo proveedor: ").upper()
+    if proveedor != "0":
+        telefono = int(input("Ingrese telefono del proveedor (10 digitos): "))
+        while telefono < 10000000 and telefono > 99999999:
+            print("Error, telefono invalido, vuelva a intentar ")
+            telefono = int(input("Ingrese telefono del proveedor (10 digitos): "))
+        nuevo_id_proveedor = len(proveedores) + 1
+        nuevo_proveedor = {
+            "id": nuevo_id_proveedor,
+            "proveedor": proveedor,
+            "telefono": telefono
+        }
+        proveedores.append(nuevo_proveedor)
+        print("Nuevo proveedor cargado con exito")
+    else:
+        print("Se ha cancelado la carga del proveedor con exito o asignado SINPROVEEDOR")
+        proveedor = "SINPROVEEDOR"
+    return proveedor
     
 def buscar_proveedor():
     "busca proveedor en el sistema // por texto predictivo, por reputación (nuevo campo, al crear un proveedor, este recibe Sin evaluacion)"
@@ -372,4 +456,4 @@ def estadisticas():
 #========================================
 
 # Inicio del programa
-main(accounts, productos, categorias, proveedores, facturas_ventas)
+main(accounts, productos, categorias, proveedores)
