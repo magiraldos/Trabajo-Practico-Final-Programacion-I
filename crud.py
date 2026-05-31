@@ -43,90 +43,79 @@ def _max_id(lista):
  
 def cargar_nuevo_producto(productos, categorias, proveedores):
     """Agrega un nuevo producto al sistema"""
-    nombre = input("Ingrese nombre del nuevo producto: ").upper()
- 
-    # Buscar coincidencias antes de cargar
-    coincidencias = [p for p in productos if re.search(nombre, p["producto"])]
+    producto = input("Ingrese nombre del nuevo producto: ").upper()
+    # Buscamos coincidencias en la lista de diccionarios
+    # esto deberia estar en busqueda de productos, es decir, hacerla una funcion para poder reutilizarla aca y allá
+    coincidencias = [p for p in productos if re.search(producto, p["producto"])]
     if coincidencias:
-        print(f"\nSe encontraron productos similares a '{nombre}':")
+        print(f"\nSe encontraron productos similares a '{producto}':")
         print(f"{'ID':<4}| {'PRODUCTO':<20}")
         print("-" * 26)
         for p in coincidencias:
             print(f"{p['id']:<4}| {p['producto']:<20}")
     else:
         print("\nNo se encontraron coincidencias\n")
- 
     while True:
         try:
-            eleccion = input("\n¿Desea cargar nuevo producto (Y / N)? ").upper()
-            while eleccion not in ("Y", "N"):
-                print("Opcion invalida, vuelva a intentar")
-                eleccion = input("Ingrese Y o N: ").upper()
- 
+            eleccion = input("\n¿Desea cargar nuevo producto ( N / Y)? ").upper()
+            while eleccion != "Y" and eleccion != "N":
+                print("Error, eleccion invalida, vuelva a intentar")
+                eleccion = input("Ingrese N / Y:  ").upper()
             if eleccion == "Y":
-                nuevo_id = _max_id(productos) + 1
+                # --- Lógica de Carga ---
+                # Para el ID, buscamos el máximo ID actual en la lista y sumamos 1
+                nuevo_id = len(productos) + 1
                 print("\nCARGA DE PRODUCTO NUEVO")
-                nombre = input("Ingrese nombre del producto: ").upper()
- 
+                producto = input("Ingrese nombre del producto nuevamente: ").upper()
                 precio = int(input("Ingrese el precio: "))
                 while precio <= 0:
                     print("Error, el precio debe ser mayor a 0")
                     precio = int(input("Ingrese precio: "))
- 
                 stock = int(input("Ingrese el stock inicial: "))
                 while stock < 0:
                     print("Error, el stock debe ser mayor o igual a 0")
-                    stock = int(input("Ingrese stock: "))
- 
-                # --- Seleccion de categoria ---
-                print("\n--- CATEGORIA ---")
-                print("Categorias existentes:")
+                    precio = int(input("Ingrese stock: "))
+                # Relacionar producto con categoria
+                print("\n--- CATEGORIA ---") #Imprime las categorias actuales para que el usuario pueda elegir sin duplicar
+                print(f"\nCategorias existentes:")
                 print("=" * 26)
                 print(f"{'ID':<4}| {'CATEGORIA':<20}")
                 print("-" * 26)
                 for cat in categorias:
                     print(f"{cat['id']:<4}| {cat['categoria']:<20}")
-                sel = int(input("Ingrese el ID de la categoria deseada (0 para nueva): "))
-                max_id_cat = _max_id(categorias)
+                sel = int(input("Ingrese el ID de la categoría deseada ( 0 para una nueva): "))
+                max_id_cat = len(categorias) #Tomo el maximo para asegurarme que el usuario coloque un id valido
                 while sel < 0 or sel > max_id_cat:
-                    sel = int(input("SELECCION INCORRECTA, INTENTE NUEVAMENTE: "))
-                if sel != 0:
-                    cat_encontrada = _buscar_por_id(categorias, sel)
-                    categoria = cat_encontrada["categoria"]
-                else:
+                    sel = int(input("SELECCIÓN INCORRECTA, INTENTE NUEVAMENTE: "))
+                if sel != 0: #Si la opcion ingresada corresponde a un id valido automaticamente tomo el valor del nombre para ese id
+                    categoria = categorias[sel - 1]["categoria"]
+                else: #Si el usuario ingresa 0 le permito cargar una nueva categoria
                     categoria = cargar_nueva_categoria(categorias)
- 
-                # --- Seleccion de proveedor ---
                 print("\n--- PROVEEDOR ---")
-                print("Proveedores existentes:")
+                print(f"Proveedores existentes:")
                 print("=" * 26)
                 print(f"{'ID':<4}| {'PROVEEDOR':<20}")
                 print("-" * 26)
                 for prov in proveedores:
                     print(f"{prov['id']:<4}| {prov['proveedor']:<20}")
-                sel = int(input("Ingrese el ID del proveedor deseado (0 para nuevo): "))
-                max_id_prov = _max_id(proveedores)
+                sel = int(input("Ingrese el ID del proveedor deseado ( 0 para una nueva): "))
+                max_id_prov = len(proveedores)
                 while sel < 0 or sel > max_id_prov:
-                    sel = int(input("SELECCION INCORRECTA, INTENTE NUEVAMENTE: "))
+                    sel = int(input("SELECCIÓN INCORRECTA, INTENTE NUEVAMENTE: "))
                 if sel != 0:
-                    prov_encontrado = _buscar_por_id(proveedores, sel)
-                    proveedor = prov_encontrado["proveedor"]
+                    proveedor = proveedores[sel - 1]["proveedor"]
                 else:
                     proveedor = cargar_nuevo_proveedor(proveedores)
- 
-                # --- Confirmacion ---
-                print(f"\n{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
-                print("-" * 95)
-                print(f"{nombre:<22}${precio:<11}{stock:<10}{categoria:<18}{proveedor:<28}{'Y':^6}")
-                confirmar = input(f"\n¿Confirma la carga de {nombre}? (Y / N): ").upper()
-                while confirmar not in ("Y", "N"):
+                   
+                # Confirmacion de todos los datos que se cargaran en productos
+                confirmar = input(f"¿Confirma la carga de {producto}? ( N / Y ): ").upper()
+                while confirmar != "Y" and confirmar != "N":
                     print("Opcion invalida, vuelva a intentarlo")
-                    confirmar = input(f"¿Confirma la carga de {nombre}? (Y / N): ").upper()
- 
+                    confirmar = input(f"¿Confirma la carga de {producto}? ( N / Y ): ")
                 if confirmar == "Y":
                     nuevo_producto = {
                         "id": nuevo_id,
-                        "producto": nombre,
+                        "producto": producto,
                         "precio": precio,
                         "stock": stock,
                         "categoria": categoria,
@@ -134,12 +123,11 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                         "activo": "Y"
                     }
                     productos.append(nuevo_producto)
-                    print(f"\nProducto '{nombre}' cargado con exito con ID {nuevo_id}.")
+                    print(f"Producto {producto} cargado con éxito.")
                 else:
-                    print(f"Carga del producto '{nombre}' cancelada.")
-            break
-        except ValueError:
-            print("Valor no valido, vuelva a intentar")
+                    print(f"Carga del Producto {producto} cancelada")      
+        except:
+            print("Eleccion no valida, vuelva a intentar")
  
  
 def buscar_producto(productos, categorias, proveedores):
@@ -389,32 +377,28 @@ def eliminar_producto(productos):
  
 def cargar_nueva_categoria(categorias):
     """Agrega una nueva categoria al sistema y la retorna"""
-    nombre = input("Ingrese nombre de la categoria para buscar coincidencias: ").upper()
-    coincidencias = [c for c in categorias if re.search(nombre, c["categoria"])]
+    categoria = input("Ingrese nombre de la categoria para encontrar coincidencias: ").upper()
+    # Buscamos coincidencias en la lista de diccionarios de categorias
+    coincidencias = [c for c in categorias if re.search(categoria, c["categoria"])]
     if coincidencias:
-        print(f"\nSe encontraron categorias similares a '{nombre}':")
+        print(f"\nSe encontraron categorias similares a '{categoria}':")
         print(f"{'ID':<4}| {'CATEGORIA':<20}")
         print("-" * 26)
         for c in coincidencias:
             print(f"{c['id']:<4}| {c['categoria']:<20}")
     else:
         print("\nNo se encontraron coincidencias\n")
- 
-    categoria = input("Ingrese nombre de la nueva categoria (0 para cancelar): ").upper()
-    # Verificar que no exista ya
-    nombres_existentes = [c["categoria"] for c in categorias]
-    while categoria in nombres_existentes and categoria != "0":
+    categoria = input("Ingrese nombre de la nueva categoria nuevamente: ").upper()
+    while categoria in categorias[1]["categoria"]:
         print(f"ERROR, la categoria '{categoria}' ya existe")
-        categoria = input("Ingrese la nueva categoria (0 para cancelar): ").upper()
- 
-    if categoria != "0":
-        nuevo_id = _max_id(categorias) + 1
-        nueva_categoria = {"id": nuevo_id, "categoria": categoria}
+        categoria = input("Ingrese la nueva categoria: ").upper()
+        nuevo_id_categoria = len(categorias) + 1
+        nueva_categoria = {
+            "id": nuevo_id_categoria,
+            "categoria": categoria
+        }
         categorias.append(nueva_categoria)
-        print(f"Categoria '{categoria}' cargada con exito con ID {nuevo_id}")
-    else:
-        print("Carga cancelada. Se asignara SINCATEGORIA")
-        categoria = "SINCATEGORIA"
+        print("Nueva categoria cargada con exito")
     return categoria
  
  
@@ -536,43 +520,33 @@ def eliminar_categoria(productos, categorias):
  
 def cargar_nuevo_proveedor(proveedores):
     """Agrega un nuevo proveedor al sistema y lo retorna"""
-    nombre = input("Ingrese nombre del proveedor para buscar coincidencias: ").upper()
-    coincidencias = [prov for prov in proveedores if re.search(nombre, prov["proveedor"])]
+    proveedor = input("Ingrese nombre del proveedor para encontrar coincidencias: ").upper()
+    # Buscamos coincidencias en la lista de diccionarios de proveedores
+    coincidencias = [p for p in proveedores if re.search(proveedor, p["proveedor"])]
     if coincidencias:
-        print(f"\nSe encontraron proveedores similares a '{nombre}':")
-        print(f"{'ID':<4}| {'PROVEEDOR':<25}")
-        print("-" * 31)
-        for prov in coincidencias:
-            print(f"{prov['id']:<4}| {prov['proveedor']:<25}")
+        print(f"\nSe encontraron proveedores similares a '{proveedor}':")
+        print(f"{'ID':<4}| {'PROVEEDOR':<20}")
+        print("-" * 26)
+        for p in proveedores:
+            print(f"{p['id']:<4}| {p['proveedor']:<20}")
     else:
         print("\nNo se encontraron coincidencias\n")
- 
-    proveedor = input("Ingrese nombre del nuevo proveedor (0 para cancelar): ").upper()
-    nombres_existentes = [prov["proveedor"] for prov in proveedores]
-    while proveedor in nombres_existentes and proveedor != "0":
+    proveedor = input("Ingrese nombre del nuevo proveedor: ").upper()
+    while proveedor in proveedores[1]["proveedor"]:
         print(f"ERROR, el proveedor '{proveedor}' ya existe")
-        proveedor = input("Ingrese el nuevo proveedor (0 para cancelar): ").upper()
- 
-    if proveedor != "0":
-        try:
-            telefono = input("Ingrese telefono del proveedor (10 digitos, sin guiones): ")
-            while len(telefono) != 10 or not telefono.isdigit():
-                print("Error, telefono invalido. Debe tener exactamente 10 digitos.")
-                telefono = input("Ingrese telefono: ")
-            nuevo_id = _max_id(proveedores) + 1
-            nuevo_proveedor = {
-                "id": nuevo_id,
-                "proveedor": proveedor,
-                "telefono": telefono
-            }
-            proveedores.append(nuevo_proveedor)
-            print(f"Proveedor '{proveedor}' cargado con exito con ID {nuevo_id}")
-        except ValueError:
-            print("Valor invalido")
-            proveedor = "SINPROVEEDOR"
-    else:
-        print("Carga cancelada. Se asignara SINPROVEEDOR")
-        proveedor = "SINPROVEEDOR"
+        proveedor = input("Ingrese el nuevo proveedor: ").upper()
+    telefono = int(input("Ingrese telefono del proveedor (10 digitos): "))
+    while telefono < 10000000 and telefono > 99999999:
+        print("Error, telefono invalido, vuelva a intentar ")
+        telefono = int(input("Ingrese telefono del proveedor (10 digitos): "))
+    nuevo_id_proveedor = len(proveedores) + 1
+    nuevo_proveedor = {
+        "id": nuevo_id_proveedor,
+        "proveedor": proveedor,
+        "telefono": telefono
+    }
+    proveedores.append(nuevo_proveedor)
+    print("Nuevo proveedor cargado con exito")
     return proveedor
  
  
