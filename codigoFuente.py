@@ -151,15 +151,17 @@ def menu_principal(nivel_acceso,productos, categorias, proveedores): # HAY QUE A
                     if opcion == 1:
                         cargar_nuevo_producto(productos, categorias, proveedores)
                     elif opcion == 2:
-                        print("ab")
+                        buscar_producto()
                     elif opcion == 2:
-                        print("ac")
+                        modificar_producto()
                     elif opcion == 2:
-                        print("ad")
+                        eliminar_producto()
                 elif opcion == 2:
-                    print("b")
+                    menu_gestion_categorias(productos, categorias, proveedores)
+                    opcion == int(input("Ingrese opcion: "))
+
                 elif opcion == 3:
-                    print("c")
+                    menu_gestion_proveedores(productos, categorias, proveedores)
                 elif opcion == 4:
                     print("d")
                 elif opcion == 5:
@@ -170,7 +172,6 @@ def menu_principal(nivel_acceso,productos, categorias, proveedores): # HAY QUE A
             except:
                 print("Error en el ingreso de la opcion")
 
-   
 def menu_gestion_productos():
     """ Menu de la gestion de productos"""
     print("="*80)
@@ -197,7 +198,7 @@ def submenu_busqueda_productos():
 def submenu_modificar_productos():
     """Modificar datos del producto"""
     print("="*80)
-    print(f"\033[36m{'Modificacion de Producto':^80}\033[0m")
+    print(f"\033[36m{'Modificacion de Productos':^80}\033[0m")
     print("="*80)
     print("1. Nombre") 
     print("2. Precio") 
@@ -231,12 +232,13 @@ def submenu_busqueda_categorias():
     print("0. Salir")
     
 def submenu_modificar_categorias():
-    """submenu de modificación de categorías"""
+    """submenu de modificación de categorias"""
+    print("="*80)
+    print(f"\033[36m{'Modificacion de Categorias':^80}\033[0m")
+    print("="*80)
     print("1. Nombre") 
     print("2. ") 
     print("3. ") 
-    print("4. Productos sin categoria") 
-    print("5. Productos sin proveedor")
     print("0. Salir")
     
 def menu_gestion_proveedores():
@@ -251,12 +253,27 @@ def menu_gestion_proveedores():
     print("0. Salir")
 
 def submenu_busqueda_proveedores():
-    """"""
+    """Submenu con las opciones  de busqueda de proveedores"""
+    print("="*80)
+    print(f"\033[36m{'Busqueda de Proveedores':^80}\033[0m")
+    print("="*80)
+    print("1 ") 
+    print("2. ") 
+    print("3. ") 
+    print("4. ") 
+    print("0. Salir")
+    
 def submenu_modificar_proveedores():
-    """"""
+    """Submenu con las opciones de modificación de categorias"""
+    print("="*80)
+    print(f"\033[36m{'Modificacion de Proveedores':^80}\033[0m")
+    print("="*80)
+    print("1. Nombre") 
+    print("2. telefono") 
+    print("0. Salir")
+    
 #========================================  
 
-#========================================   
 # CRUD
 #========================================/
 def cargar_nuevo_producto(productos, categorias, proveedores):
@@ -351,8 +368,15 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
             print("Eleccion no valida, vuelva a intentar")
 
 def buscar_producto():
-    submenu_busqueda_productos()
-    
+    try:
+        submenu_busqueda_productos()
+        opcion = int(input("Ingrese opcion: "))
+        while opcion < 0 and opcion > 5:
+            print("Opcion invalida, vuelva a intentarlo")
+            submenu_busqueda_productos()
+            opcion = int(input("Ingrese opcion: "))
+    except:
+        print("ERROR, opcion invalida")
     "busca producto en el sistema // por texto predictivo, por rango de precios (min,max), por estado (baja logica), ¿por stock crítico (habría que establecer el minimo y agregar una bandera que indique el estado), productos sin proveedor, productos sin proveedor?"
 def modificar_producto():
     "modifica los datos de un producto del sistema // se me ocurre que cuando se eliminen proveedores de productos existentes, estos pasen a figurar Sin proveedor, y puedas modificar por filtros todos esos, capaz filtrando tambien por categoría, viceversa"
