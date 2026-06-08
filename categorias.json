@@ -1,0 +1,9 @@
+{
+    "categorias": [
+        {"id": 1, "categoria": "DULCE"},
+        {"id": 2, "categoria": "BEBIDA"},
+        {"id": 3, "categoria": "SNACK"},
+        {"id": 4, "categoria": "CIGARRILLOS"},
+        {"id": 5, "categoria": "GOLOSINAS"}
+    ]
+}

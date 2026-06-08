@@ -1,0 +1,14 @@
+{
+    "proveedores": [
+        {"id": 1, "proveedor": "DISTRIBUIDORA DULCE SUR", "telefono": "1145882930"},
+        {"id": 2, "proveedor": "ENERGIA TOTAL SA", "telefono": "1159220041"},
+        {"id": 3, "proveedor": "GOLOSINAS DEL PLATA", "telefono": "1147618822"},
+        {"id": 4, "proveedor": "MACROSNACKS INC", "telefono": "1130049512"},
+        {"id": 5, "proveedor": "DISTRIBUIDORA PEPSICO", "telefono": "1148203300"},
+        {"id": 6, "proveedor": "CITRICOS DEL NORTE", "telefono": "1165447189"},
+        {"id": 7, "proveedor": "FEMSA LOGISTICA", "telefono": "1122904455"},
+        {"id": 8, "proveedor": "TABACALERA CENTRAL", "telefono": "1143019980"},
+        {"id": 9, "proveedor": "MONDELEZ DISTRIBUCION", "telefono": "1151126674"},
+        {"id": 10, "proveedor": "AGUAS DEL RETIRO", "telefono": "1149902113"}
+    ]
+}
