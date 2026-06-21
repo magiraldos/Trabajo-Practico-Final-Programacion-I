@@ -23,12 +23,16 @@ def _imprimir_producto_resaltado(productos, id_sel):
         else:
             print(linea)
  
-def _buscar_por_id(lista, id_buscado):
-    """Devuelve el diccionario de la lista cuyo 'id' coincide, o None"""
-    for item in lista:
-        if item["id"] == id_buscado:
-            return item
-    return None
+def _buscar_por_id(lista, id_buscado, indice=0):
+    # Caso base
+    if indice >= len(lista):
+        return None
+
+    if lista[indice]["id"] == id_buscado:
+        return lista[indice]
+
+    # Caso recursivo
+    return _buscar_por_id(lista, id_buscado, indice + 1)
  
 def _max_id(lista):
     """Devuelve el id mas alto de una lista de diccionarios"""
