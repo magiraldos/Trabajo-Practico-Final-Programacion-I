@@ -5,13 +5,34 @@ import json
 # HELPERS INTERNOS
 #========================================
  
-def _imprimir_productos(productos):
-    """Imprime todos los productos en formato tabla"""
-    print(f"{'ID':<6}{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
-    print("-" * 100)
-    for p in productos:
-        print(f"{p['id']:<6}{p['producto']:<22}${p['precio']:<11}{p['stock']:<10}{p['categoria']:<18}{p['proveedor']:<28}{p['activo']:^6}")
- 
+def _imprimir_productos(productos, indice=0):
+    """Imprime todos los productos en formato tabla (recursivo)"""
+
+    if indice == 0:
+        print(f"{'ID':<6}{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
+        print("-" * 100)
+
+    # Caso base
+    if indice >= len(productos):
+        return
+
+    p = productos[indice]
+
+    print(
+        f"{p['id']:<6}"
+        f"{p['producto']:<22}"
+        f"${p['precio']:<11}"
+        f"{p['stock']:<10}"
+        f"{p['categoria']:<18}"
+        f"{p['proveedor']:<28}"
+        f"{p['activo']:^6}"
+    )
+
+    # Caso recursivo
+    _imprimir_productos(productos, indice + 1)
+
+
+    
 def _imprimir_producto_resaltado(productos, id_sel):
     """Imprime todos los productos resaltando el que tiene el id indicado"""
     print(f"{'ID':<6}{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
