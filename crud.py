@@ -34,11 +34,21 @@ def _buscar_por_id(lista, id_buscado, indice=0):
     # Caso recursivo
     return _buscar_por_id(lista, id_buscado, indice + 1)
  
-def _max_id(lista):
-    """Devuelve el id mas alto de una lista de diccionarios"""
+def _max_id(lista, indice=0):
     if not lista:
         return 0
-    return max(item["id"] for item in lista)
+
+    # Caso base
+    if indice == len(lista) - 1:
+        return lista[indice]["id"]
+
+    # Caso recursivo
+    max_resto = _max_id(lista, indice + 1)
+
+    if lista[indice]["id"] > max_resto:
+        return lista[indice]["id"]
+
+    return max_resto
  
  
 #========================================
