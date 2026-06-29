@@ -1,44 +1,69 @@
-import re
-import datos
+import json
 import menus
-import crud
-import funexclusivas
 
-# Inicio de programa (es lo unico que tiene que quedar en "Principal")
-def main(cuentas, productos, categorias, proveedores):
-    """FUNCION QUE DETERMINA EL NIVEL DE ACCESO AL PROGRAMA, USUARIO O ADMIN y tronco del Sistema"""
+#========================================
+# CARGA Y GUARDADO DE ARCHIVOS JSON
+#========================================
+
+def _cargar(archivo, clave):
+    """Carga una lista desde un archivo JSON"""
+    try:
+        with open(archivo, encoding="utf-8") as f:
+            return json.load(f)[clave]
+    except FileNotFoundError:
+        print(f"ERROR: No se encontro el archivo '{archivo}'.")
+        return []
+    except Exception:
+        print(f"ERROR: No se pudo leer el archivo '{archivo}'.")
+        return []
+
+def _guardar(archivo, clave, datos):
+    """Guarda una lista en un archivo JSON"""
+    try:
+        with open(archivo, "w", encoding="utf-8") as f:
+            json.dump({clave: datos}, f, ensure_ascii=False, indent=4)
+    except Exception:
+        print(f"ERROR: No se pudo guardar el archivo '{archivo}'.")
+
+#========================================
+# INICIO DEL PROGRAMA
+#========================================
+
+def main():
+    """Carga datos desde JSON y arranque del sistema"""
+    productos   = _cargar("archivos/productos.json",   "productos")
+    categorias  = _cargar("archivos/categorias.json",  "categorias")
+    proveedores = _cargar("archivos/proveedores.json", "proveedores")
+    cuentas     = _cargar("archivos/cuentas.json",     "accounts")
     while True:
         try:
             menus.menu_login()
             opcion = int(input("Seleccione forma de acceso: "))
             while opcion < 0 or opcion > 2:
                 print("Opcion invalida, vuelva a intentar")
-                # que se imprima lo de abajo con un poco de retraso, 1 seg y limpie pantalla 
                 menus.menu_login()
                 opcion = int(input("Seleccione forma de acceso: "))
             if opcion == 1:
-                nivel_permiso = 0
-                menus.menu_principal(nivel_permiso, productos, categorias, proveedores)
+                menus.menu_principal(0, productos, categorias, proveedores)
             elif opcion == 2:
-                # con expresiones regulares podemos hacer algo aca !!!
-                password_login = input("Ingrese contraseña: ")
+                password_login = input("Ingrese contrasena: ")
                 while password_login != cuentas[1]["password"] and password_login != "0":
-                    print("Contraseña incorrecta, vuelva a intentarlo")
-                    print("Ingrese 0 si desea salir \n")
-                    password_login = input("Ingrese contraseña: ")
+                    print("Contrasena incorrecta, vuelva a intentarlo")
+                    print("Ingrese 0 si desea salir\n")
+                    password_login = input("Ingrese contrasena: ")
                 if password_login != "0":
                     print("Acceso correcto")
-                    nivel_permiso = 1
-                    menus.menu_principal(nivel_permiso, productos, categorias, proveedores)
-                else:
-                    main(cuentas) 
+                    menus.menu_principal(1, productos, categorias, proveedores)
             else:
-                print("Saliendo del programa...") 
-                # retraso del tiempo despues del mensaje para la lectura 1 seg
-            break
-        except:
-            print("Error en el ingreso de la opcion, intente de nuevo")
-            # que se imprima lo de abajo con un poco de retraso, 1 seg y limpie pantalla
+                print("Saliendo del programa...")
+                # Persistir cambios al salir
+                _guardar("archivos/productos.json",   "productos",  productos)
+                _guardar("archivos/categorias.json",  "categorias", categorias)
+                _guardar("archivos/proveedores.json", "proveedores", proveedores)
+                break
+        except ValueError:
+            print("Error: ingrese un numero valido")
+        except Exception:
+            print("Error inesperado, intente de nuevo")
 
-# Inicio del programa
-main(datos.accounts, datos.productos, datos.categorias, datos.proveedores)
+main()

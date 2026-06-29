@@ -12,7 +12,6 @@ def _imprimir_productos(productos, indice=0):
         print(f"{'ID':<6}{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
         print("-" * 100)
 
-    # Caso base
     if indice >= len(productos):
         return
 
@@ -28,7 +27,6 @@ def _imprimir_productos(productos, indice=0):
         f"{p['activo']:^6}"
     )
 
-    # Caso recursivo
     _imprimir_productos(productos, indice + 1)
 
 
@@ -45,25 +43,21 @@ def _imprimir_producto_resaltado(productos, id_sel):
             print(linea)
  
 def _buscar_por_id(lista, id_buscado, indice=0):
-    # Caso base
     if indice >= len(lista):
         return None
 
     if lista[indice]["id"] == id_buscado:
         return lista[indice]
 
-    # Caso recursivo
     return _buscar_por_id(lista, id_buscado, indice + 1)
  
 def _max_id(lista, indice=0):
     if not lista:
         return 0
 
-    # Caso base
     if indice == len(lista) - 1:
         return lista[indice]["id"]
 
-    # Caso recursivo
     max_resto = _max_id(lista, indice + 1)
 
     if lista[indice]["id"] > max_resto:
@@ -80,7 +74,6 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
     """Agrega un nuevo producto al sistema"""
     nombre = input("Ingrese nombre del nuevo producto: ").upper()
  
-    # Buscar coincidencias antes de cargar
     coincidencias = [p for p in productos if re.search(nombre, p["producto"])]
     if coincidencias:
         print(f"\nSe encontraron productos similares a '{nombre}':")
@@ -113,7 +106,6 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                     print("Error, el stock debe ser mayor o igual a 0")
                     stock = int(input("Ingrese stock: "))
  
-                # --- Seleccion de categoria ---
                 print("\n--- CATEGORIA ---")
                 print("Categorias existentes:")
                 print("=" * 26)
@@ -131,7 +123,6 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                 else:
                     categoria = cargar_nueva_categoria(categorias)
  
-                # --- Seleccion de proveedor ---
                 print("\n--- PROVEEDOR ---")
                 print("Proveedores existentes:")
                 print("=" * 26)
@@ -149,7 +140,6 @@ def cargar_nuevo_producto(productos, categorias, proveedores):
                 else:
                     proveedor = cargar_nuevo_proveedor(proveedores)
  
-                # --- Confirmacion ---
                 print(f"\n{'PRODUCTO':<22}{'PRECIO':<12}{'STOCK':<10}{'CATEGORIA':<18}{'PROVEEDOR':<28}{'ACTIVO'}")
                 print("-" * 95)
                 print(f"{nombre:<22}${precio:<11}{stock:<10}{categoria:<18}{proveedor:<28}{'Y':^6}")
@@ -189,7 +179,6 @@ def buscar_producto(productos, categorias, proveedores):
                 opcion = int(input("Ingrese opcion: "))
  
             if opcion == 1:
-                # Busqueda por coincidencia de texto
                 nombre = input("Ingrese nombre del producto a buscar: ").upper()
                 coincidencias = [p for p in productos if re.search(nombre, p["producto"])]
                 if coincidencias:
@@ -205,7 +194,6 @@ def buscar_producto(productos, categorias, proveedores):
                     print("\nNo se encontraron resultados para la busqueda\n")
  
             elif opcion == 2:
-                # Busqueda por rango de precios
                 try:
                     precio_min = int(input("Ingrese precio MINIMO: "))
                     precio_max = int(input("Ingrese precio MAXIMO: "))
@@ -219,7 +207,6 @@ def buscar_producto(productos, categorias, proveedores):
                     print("Valor invalido, ingrese numeros enteros")
  
             elif opcion == 3:
-                # Busqueda por estado (activo / inactivo)
                 estado = input("Ingrese estado a filtrar (Y = activo / N = inactivo): ").upper()
                 while estado not in ("Y", "N"):
                     estado = input("Opcion invalida. Ingrese Y o N: ").upper()
@@ -232,7 +219,6 @@ def buscar_producto(productos, categorias, proveedores):
                     print(f"\nNo se encontraron productos {etiqueta}\n")
  
             elif opcion == 4:
-                # Productos sin categoria (categoria = SINCATEGORIA)
                 filtrados = [p for p in productos if p["categoria"] == "SINCATEGORIA"]
                 if filtrados:
                     print("\n--- Productos sin categoria ---")
@@ -241,7 +227,6 @@ def buscar_producto(productos, categorias, proveedores):
                     print("\nTodos los productos tienen categoria asignada\n")
  
             elif opcion == 5:
-                # Productos sin proveedor (proveedor = SINPROVEEDOR)
                 filtrados = [p for p in productos if p["proveedor"] == "SINPROVEEDOR"]
                 if filtrados:
                     print("\n--- Productos sin proveedor ---")
@@ -272,7 +257,6 @@ def modificar_producto(productos, categorias, proveedores):
                 print("Volviendo al menu anterior...")
                 break
  
-            # Buscar el producto a modificar
             nombre = input("Ingrese nombre del producto a modificar: ").upper()
             coincidencias = [p for p in productos if re.search(nombre, p["producto"])]
             if not coincidencias:
@@ -288,7 +272,6 @@ def modificar_producto(productos, categorias, proveedores):
                 continue
  
             if opcion == 1:
-                # Modificar nombre
                 nuevo_nombre = input(f"Nombre actual: '{prod['producto']}'. Ingrese nuevo nombre: ").upper()
                 confirmar = input(f"¿Confirma cambiar nombre a '{nuevo_nombre}'? (Y / N): ").upper()
                 if confirmar == "Y":
@@ -297,7 +280,6 @@ def modificar_producto(productos, categorias, proveedores):
                     _imprimir_producto_resaltado(productos, sel)
  
             elif opcion == 2:
-                # Modificar precio
                 try:
                     nuevo_precio = int(input(f"Precio actual: ${prod['precio']}. Ingrese nuevo precio: "))
                     while nuevo_precio <= 0:
@@ -312,7 +294,6 @@ def modificar_producto(productos, categorias, proveedores):
                     print("Valor invalido, ingrese un numero entero")
  
             elif opcion == 3:
-                # Modificar stock
                 try:
                     print(f"Stock actual: {prod['stock']}.")
                     print("1. Aumentar stock")
@@ -339,7 +320,6 @@ def modificar_producto(productos, categorias, proveedores):
                     print("Valor invalido")
  
             elif opcion == 4:
-                # Modificar categoria
                 nueva_cat = modificar_categoria(categorias)
                 confirmar = input(f"¿Confirma cambiar categoria a '{nueva_cat}'? (Y / N): ").upper()
                 if confirmar == "Y":
@@ -348,7 +328,6 @@ def modificar_producto(productos, categorias, proveedores):
                     _imprimir_producto_resaltado(productos, sel)
  
             elif opcion == 5:
-                # Modificar proveedor
                 print("Proveedores existentes:")
                 print(f"{'ID':<4}| {'PROVEEDOR':<25}| {'TELEFONO':<15}")
                 print("-" * 48)
@@ -370,7 +349,6 @@ def modificar_producto(productos, categorias, proveedores):
                     _imprimir_producto_resaltado(productos, sel)
  
             elif opcion == 6:
-                # Modificar estado (activo / inactivo)
                 estado_actual = prod["activo"]
                 nuevo_estado = "N" if estado_actual == "Y" else "Y"
                 etiqueta = "INACTIVO" if nuevo_estado == "N" else "ACTIVO"
@@ -435,7 +413,6 @@ def cargar_nueva_categoria(categorias):
         print("\nNo se encontraron coincidencias\n")
  
     categoria = input("Ingrese nombre de la nueva categoria (0 para cancelar): ").upper()
-    # Verificar que no exista ya
     nombres_existentes = [c["categoria"] for c in categorias]
     while categoria in nombres_existentes and categoria != "0":
         print(f"ERROR, la categoria '{categoria}' ya existe")
@@ -463,7 +440,6 @@ def buscar_categoria(productos, categorias):
                 opcion = int(input("Ingrese opcion: "))
  
             if opcion == 1:
-                # Busqueda por texto
                 nombre = input("Ingrese nombre de la categoria a buscar: ").upper()
                 coincidencias = [c for c in categorias if re.search(nombre, c["categoria"])]
                 if coincidencias:
@@ -486,7 +462,6 @@ def buscar_categoria(productos, categorias):
                     print("\nNo se encontraron categorias con ese nombre\n")
  
             elif opcion == 2:
-                # Categorias ordenadas por volumen de productos
                 conteo = []
                 for cat in categorias:
                     cantidad = sum(1 for p in productos if p["categoria"] == cat["categoria"])
@@ -621,7 +596,6 @@ def buscar_proveedor(productos, proveedores):
                 opcion = int(input("Ingrese opcion: "))
  
             if opcion == 1:
-                # Busqueda por texto
                 nombre = input("Ingrese nombre del proveedor a buscar: ").upper()
                 coincidencias = [prov for prov in proveedores if re.search(nombre, prov["proveedor"])]
                 if coincidencias:
@@ -644,7 +618,6 @@ def buscar_proveedor(productos, proveedores):
                     print("\nNo se encontraron proveedores con ese nombre\n")
  
             elif opcion == 2:
-                # Listar todos los proveedores
                 print(f"\n--- Listado completo de proveedores ---")
                 print(f"{'ID':<4}| {'PROVEEDOR':<28}| {'TELEFONO':<15}")
                 print("-" * 50)
@@ -673,7 +646,6 @@ def modificar_proveedor(productos, proveedores):
                 print("Volviendo al menu anterior...")
                 break
  
-            # Buscar el proveedor
             nombre = input("Ingrese nombre del proveedor a modificar: ").upper()
             coincidencias = [prov for prov in proveedores if re.search(nombre, prov["proveedor"])]
             if not coincidencias:
@@ -693,20 +665,17 @@ def modificar_proveedor(productos, proveedores):
                 continue
  
             if opcion == 1:
-                # Modificar nombre
                 nuevo_nombre = input(f"Nombre actual: '{prov['proveedor']}'. Ingrese nuevo nombre: ").upper()
                 confirmar = input(f"¿Confirma cambiar nombre a '{nuevo_nombre}'? (Y / N): ").upper()
                 if confirmar == "Y":
                     nombre_viejo = prov["proveedor"]
                     prov["proveedor"] = nuevo_nombre
-                    # Actualizar el nombre en todos los productos asociados
                     for p in productos:
                         if p["proveedor"] == nombre_viejo:
                             p["proveedor"] = nuevo_nombre
                     print(f"Proveedor renombrado a '{nuevo_nombre}'. Productos actualizados.")
  
             elif opcion == 2:
-                # Modificar telefono
                 nuevo_tel = input(f"Telefono actual: {prov['telefono']}. Ingrese nuevo telefono (10 digitos): ")
                 while len(nuevo_tel) != 10 or not nuevo_tel.isdigit():
                     print("Telefono invalido. Debe tener exactamente 10 digitos.")

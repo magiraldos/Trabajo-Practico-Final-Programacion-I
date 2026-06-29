@@ -1,14 +1,94 @@
 {
     "productos": [
-        {"id": 1, "producto": "ALFAJOR OREO", "precio": 1100, "stock": 50, "categoria": "DULCE", "proveedor": "DISTRIBUIDORA DULCE SUR", "activo": "Y"},
-        {"id": 2, "producto": "RED BULL", "precio": 2800, "stock": 24, "categoria": "BEBIDA", "proveedor": "ENERGIA TOTAL SA", "activo": "Y"},
-        {"id": 3, "producto": "ALFAJOR JORGITO", "precio": 850, "stock": 100, "categoria": "DULCE", "proveedor": "GOLOSINAS DEL PLATA", "activo": "Y"},
-        {"id": 4, "producto": "DORITOS", "precio": 2200, "stock": 30, "categoria": "SNACK", "proveedor": "MACROSNACKS INC", "activo": "Y"},
-        {"id": 5, "producto": "PAPAS LAYS", "precio": 1900, "stock": 45, "categoria": "SNACK", "proveedor": "DISTRIBUIDORA PEPSICO", "activo": "Y"},
-        {"id": 6, "producto": "JUGO CEPITA", "precio": 1400, "stock": 36, "categoria": "BEBIDA", "proveedor": "CITRICOS DEL NORTE", "activo": "Y"},
-        {"id": 7, "producto": "COCA COLA 600", "precio": 1650, "stock": 72, "categoria": "BEBIDA", "proveedor": "FEMSA LOGISTICA", "activo": "Y"},
-        {"id": 8, "producto": "MARLBORO", "precio": 3200, "stock": 20, "categoria": "CIGARRILLOS", "proveedor": "TABACALERA CENTRAL", "activo": "Y"},
-        {"id": 9, "producto": "CHICLES BELDENT", "precio": 700, "stock": 150, "categoria": "DULCE", "proveedor": "MONDELEZ DISTRIBUCION", "activo": "Y"},
-        {"id": 10, "producto": "AGUA 600", "precio": 1100, "stock": 48, "categoria": "BEBIDA", "proveedor": "AGUAS DEL RETIRO", "activo": "Y"}
+        {
+            "id": 1,
+            "producto": "ALFAJOR OREO",
+            "precio": 1100,
+            "stock": 50,
+            "categoria": "DULCE",
+            "proveedor": "DISTRIBUIDORA DULCE SUR",
+            "activo": "Y"
+        },
+        {
+            "id": 2,
+            "producto": "RED BULL",
+            "precio": 2800,
+            "stock": 24,
+            "categoria": "BEBIDA",
+            "proveedor": "ENERGIA TOTAL SA",
+            "activo": "Y"
+        },
+        {
+            "id": 3,
+            "producto": "ALFAJOR JORGITO",
+            "precio": 850,
+            "stock": 100,
+            "categoria": "DULCE",
+            "proveedor": "GOLOSINAS DEL PLATA",
+            "activo": "Y"
+        },
+        {
+            "id": 4,
+            "producto": "DORITOS",
+            "precio": 2200,
+            "stock": 30,
+            "categoria": "SNACK",
+            "proveedor": "MACROSNACKS INC",
+            "activo": "Y"
+        },
+        {
+            "id": 5,
+            "producto": "PAPAS LAYS",
+            "precio": 1900,
+            "stock": 45,
+            "categoria": "SNACK",
+            "proveedor": "DISTRIBUIDORA PEPSICO",
+            "activo": "Y"
+        },
+        {
+            "id": 6,
+            "producto": "JUGO CEPITA",
+            "precio": 1400,
+            "stock": 36,
+            "categoria": "BEBIDA",
+            "proveedor": "CITRICOS DEL NORTE",
+            "activo": "Y"
+        },
+        {
+            "id": 7,
+            "producto": "COCA COLA 600",
+            "precio": 1650,
+            "stock": 72,
+            "categoria": "BEBIDA",
+            "proveedor": "FEMSA LOGISTICA",
+            "activo": "Y"
+        },
+        {
+            "id": 8,
+            "producto": "MARLBORO",
+            "precio": 3200,
+            "stock": 20,
+            "categoria": "CIGARRILLOS",
+            "proveedor": "TABACALERA CENTRAL",
+            "activo": "Y"
+        },
+        {
+            "id": 9,
+            "producto": "CHICLES BELDENT",
+            "precio": 700,
+            "stock": 150,
+            "categoria": "DULCE",
+            "proveedor": "MONDELEZ DISTRIBUCION",
+            "activo": "Y"
+        },
+        {
+            "id": 10,
+            "producto": "AGUA 600",
+            "precio": 1100,
+            "stock": 48,
+            "categoria": "BEBIDA",
+            "proveedor": "AGUAS DEL RETIRO",
+            "activo": "Y"
+        }
     ]
 }
